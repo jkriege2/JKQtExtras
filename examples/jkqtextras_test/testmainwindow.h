@@ -2,6 +2,7 @@
 #define TESTMAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 namespace Ui {
 class TestMainWindow;
@@ -16,8 +17,11 @@ public:
     ~TestMainWindow();
 protected:
     QWidget *testVisibleHandleSplitter();
+    QWidget *testJKQTEProgressListWidget();
 private:
     Ui::TestMainWindow *ui;
+    QTimer* timJKQTEProgressListWidget;
+    int stateJKQTEProgressListWidget;
 };
 
 #endif // TESTMAINWINDOW_H

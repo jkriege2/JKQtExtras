@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/jkqteprogresslistwidget">
+        <file alias="statusDone.png">images/statusDone.png</file>
+        <file alias="statusFailed.png">images/statusFailed.png</file>
+        <file alias="statusInProgress.png">images/statusInProgress.png</file>
+        <file alias="statusNotStarted.png">images/statusNotStarted.png</file>
+        <file alias="statusNone.png">images/statusNone.png</file>
+    </qresource>
+</RCC>

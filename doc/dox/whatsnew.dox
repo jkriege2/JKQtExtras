@@ -13,7 +13,8 @@ This page lists release notes for the diferent version of JKQtExtras
 
 \subsection page_whatsnew_TRUNK_OVERVIEW trunk: Overview
 Changes since creation include:
-  - JKQTEVisibleHandleSplitter
+  - JKQTEVisibleHandleSplitter 
+  - JKQTEProgressListWidget and JKQTEProgressListDialog
 .
 
 \subsection page_whatsnew_TRUNK_DOWNLOAD trunk: Download

@@ -22,6 +22,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 # Set up source files
 set(SOURCES
     jkqtevisiblehandlesplitter.cpp
+    jkqteprogresslistwidget.cpp
      )
 
 
@@ -29,10 +30,12 @@ set(SOURCES
 set(HEADERS
     jkqtextras_imexport.h
     jkqtevisiblehandlesplitter.h
+    jkqteprogresslistwidget.h
 )
 
 
 set(RESOURCES
+    jkqteprogresslistwidget.qrc
 )
 
 include(CMakePackageConfigHelpers)
