@@ -1,0 +1,32 @@
+/*!
+
+\page page_whatsnew What's New (Release Notes/Versions)
+This page lists release notes for the diferent version of JKQtExtras
+
+\tableofcontents
+
+
+ 
+
+
+\section page_whatsnew_TRUNK trunk
+
+\subsection page_whatsnew_TRUNK_OVERVIEW trunk: Overview
+Changes since creation include:
+  - JKQTEVisibleHandleSplitter
+.
+
+\subsection page_whatsnew_TRUNK_DOWNLOAD trunk: Download
+
+This release is available from:
+  - Source code branch: <a href="https://github.com/jkriege2/JKQtExtras">https://github.com/jkriege2/JKQtExtras</a>
+  - Source Code download (ZIP): <a href="https://github.com/jkriege2/JKQtExtras/archive/master.zip">https://github.com/jkriege2/JKQtExtras/archive/master.zip</a>
+  - Git-Link: <a href="https://github.com/jkriege2/JKQtExtras.git">https://github.com/jkriege2/JKQtExtras.git</a>
+.
+
+
+
+
+
+
+*/

@@ -1,0 +1,17 @@
+/*!
+\page exampleTutorialProjects Example & Tutorial Projects 
+
+This section assembles some simple examples of usage. 
+You can find more (complex) examples for the classes in this repository in the subfolder "test". 
+All test-projects are Qt-projects that use qmake to build. You can load them into QtCreator easily.
+
+
+
+<!--<table>
+<tr><th> Screenshot    <th> Description   <th> Notes  
+<tr><td> \image html jkqtextras_test_small.png
+    <td> \subpage JKQTExtrasTest
+	<td> e
+</table>-->
+
+*/

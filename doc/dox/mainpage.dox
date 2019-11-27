@@ -1,0 +1,28 @@
+/*!
+
+\mainpage JKQtExtras - A Collection of Diverse Qt4/5 Widgets
+
+- This is an extensive library of different widgets and tools for Qt (>= 4.7, tested with Qt up to 5.11).
+- This software is licensed under the term of the GNU Lesser General Public License 2.1 
+(LGPL 2.1) or above. See \ref licensesec for details.
+- <a href="http://jkriege2.github.io/JKQtExtras/index.html">Online-Documentation (http://jkriege2.github.io/JKQtExtras/index.html)</a>
+- <a href="https://github.com/jkriege2/JKQtExtras">Source Code Repository (https://github.com/jkriege2/JKQtExtras)</a>
+- <a href="https://github.com/jkriege2/JKQtExtras/releases">Tagged Releases (https://github.com/jkriege2/JKQtExtras/releases)</a>
+ 
+
+\section jkqtp_main_features Main Features
+- CMake-based build system, see: \ref page_buildinstructions_CMAKE
+- \ref exampleTutorialProjects "extensive set of Examples and Tutorials"
+- extensive doxygen-generated <a href="http://jkriege2.github.io/JKQtExtras/index.html">Online-Documentation (http://jkriege2.github.io/JKQtExtras/index.html)</a>
+- source code hosted&developed on GitHub <a href="https://github.com/jkriege2/JKQtExtras">https://github.com/jkriege2/JKQtExtras</a> (including continuous integration builds: <a href="https://ci.appveyor.com/project/jkriege2/JKQtExtras/branch/master">https://ci.appveyor.com/project/jkriege2/JKQtExtras/branch/master</a>)
+
+\section JKQtExtrastic Table Of Contents
+- Documentation of Major Classes:
+  - JKQtExtras
+- \ref licensepage
+- \ref page_buildinstructions
+- \ref page_whatsnew
+- \ref exampleTutorialProjects 
+
+
+*/
