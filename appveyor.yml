@@ -8,7 +8,7 @@ environment:
     QTVER: 5.11
     JOMDIR: C:\Qt\Tools\QtCreator\bin
     MINGWDIR: C:\Qt\Tools\mingw530_32
-    VSVER: 0
+    VSVER:  0
 
   matrix:
     - QTABI: mingw53_32
