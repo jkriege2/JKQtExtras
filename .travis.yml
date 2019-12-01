@@ -71,7 +71,7 @@ install:
   - source ci/install_travis.sh
 
 script:
-  - ci/test_travis.sh
+  - source ci/test_travis.sh
 
 notifications:
   email: false
