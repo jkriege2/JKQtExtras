@@ -143,7 +143,7 @@ public slots:
    * widget background color) */
   void setBackgroundColor(QColor col);
   /** \brief backround color of the inner circle */
-  QColor setInnerCircleBackgroundColor(QColor col);
+  void setInnerCircleBackgroundColor(QColor col);
   /** \brief is an automatic spin going on? */
   void setSpin(bool enabled);
   /** \brief interval (milliseconds) of the movement if spin() is \c true */

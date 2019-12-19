@@ -188,7 +188,7 @@ void JKQTEModernProgressWidget::setBackgroundColor(QColor col) {
   updateWidget();
 }
 
-QColor JKQTEModernProgressWidget::setInnerCircleBackgroundColor(QColor col)
+void JKQTEModernProgressWidget::setInnerCircleBackgroundColor(QColor col)
 {
   m_innerCircleBackgroundColor=col;
   updateWidget();
