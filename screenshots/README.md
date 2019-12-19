@@ -1,1 +1,0 @@
-# JKQtExtras: Screenshots

@@ -39,11 +39,6 @@ Documentation is auto-generated after pushes by [Travis](https://travis-ci.org/j
 There is a [large set of usage examples (with explanations for each) and tutorials](./examples/) in the folder [`./examples/`](./examples).
 All test-projects are Qt-projects that use qmake to build. You can load them into QtCreator easily.
 
-## [Screenshots](./screenshots/)
-The [Screenshots-page](./screenshots/) contains several screenshots, partly taken from the provided examples, but also from other software using this libarary (e.g. [QuickFit 3.0](https://github.com/jkriege2/QuickFit3))
-
-[![EXAMPLES-Page](./screenshots/screenshotsbanner.png)](./screenshots/README.md)
-
 
 ## Building
 
