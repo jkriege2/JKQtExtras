@@ -18,7 +18,7 @@
 
 \section JKQtExtrastic Table Of Contents
 - Documentation of Major Classes:
-  - JKQtExtras
+  - \ref JKQtExtras
 - \ref licensepage
 - \ref page_buildinstructions
 - \ref page_whatsnew
