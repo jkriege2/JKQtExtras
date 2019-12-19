@@ -1,11 +1,5 @@
-#ifndef JKQTEXTRAS_IMPORT_H
-#define JKQTEXTRAS_IMPORT_H
-
-
 /*
     Copyright (c) 2008-2019 Jan W. Krieger (<jan@jkrieger.de>)
-
-    last modification: $LastChangedDate: 2015-04-02 13:55:22 +0200 (Do, 02 Apr 2015) $  (revision $Rev: 3902 $)
 
     This software is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License (LGPL) as published by
@@ -20,6 +14,9 @@
     You should have received a copy of the GNU Lesser General Public License (LGPL)
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+#ifndef JKQTEXTRAS_IMPORT_H
+#define JKQTEXTRAS_IMPORT_H
 
 
 

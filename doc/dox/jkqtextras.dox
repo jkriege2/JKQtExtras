@@ -6,5 +6,20 @@
 \defgroup JKQtExtrasWidgets JKQtExtras: Widgets
 \ingroup JKQtExtras
 
+\defgroup JKQtExtrasWidgetsLayout Form Organization/Layout
+\ingroup JKQtExtrasWidgets
+
+\defgroup JKQtExtrasWidgetsProgress Progress Indicators
+\ingroup JKQtExtrasWidgets
+
+\defgroup JKQtExtrasWidgetsEdits Edit Fields
+\ingroup JKQtExtrasWidgets
+
+\defgroup JKQtExtrasToolsClasses JKQtExtras: Tool Classes
+\ingroup JKQtExtras
+
+\defgroup JKQtExtrasToolsClassesModels Data Models
+\ingroup JKQtExtrasToolsClasses
+
 
 */

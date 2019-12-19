@@ -18,6 +18,7 @@ public:
 protected:
     QWidget *testVisibleHandleSplitter();
     QWidget *testJKQTEProgressListWidget();
+    QWidget *testJKQTEModernProgressWidget();
 private:
     Ui::TestMainWindow *ui;
     QTimer* timJKQTEProgressListWidget;
