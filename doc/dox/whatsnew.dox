@@ -16,6 +16,7 @@ Changes since creation include:
   - JKQTEVisibleHandleSplitter 
   - JKQTEProgressListWidget and JKQTEProgressListDialog
   - JKQTEModernProgressWidget and JKQTEModernProgressDialog
+  - JKQTEColorSlider
 .
 
 \subsection page_whatsnew_TRUNK_DOWNLOAD trunk: Download

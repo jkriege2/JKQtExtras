@@ -3,6 +3,7 @@
 #include "jkqtextras/jkqtevisiblehandlesplitter.h"
 #include "jkqtextras/jkqteprogresslistwidget.h"
 #include "jkqtextras/jkqtemodernprogress.h"
+#include "jkqtextras/jkqtecolorslider.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QSlider>
@@ -18,6 +19,7 @@ TestMainWindow::TestMainWindow(QWidget *parent) :
     ui->tabWidget->addTab(testVisibleHandleSplitter(), "JKQTEVisibleHandleSplitter");
     ui->tabWidget->addTab(testJKQTEProgressListWidget(), "JKQTEProgressListWidget");
     ui->tabWidget->addTab(testJKQTEModernProgressWidget(), "JKQTEModernProgressWidget");
+    ui->tabWidget->addTab(testJKQTEColorSlider(), "JKQTEColorSlider");
     ui->tabWidget->setCurrentIndex(2);
 }
 
@@ -75,6 +77,42 @@ QWidget *TestMainWindow::testJKQTEProgressListWidget()
     //! [Example: JKQTEProgressListWidget]
 
     return progress;
+}
+
+QWidget *TestMainWindow::testJKQTEColorSlider()
+{
+    QWidget* wid=new QWidget(this);
+    QFormLayout* lay=new QFormLayout;
+    wid->setLayout(lay);
+    //! [Example: JKQTEColorSlider]
+
+    JKQTEColorSlider* slider=new JKQTEColorSlider(Qt::Horizontal, wid);
+    slider->setColorMode(JKQTEColorSlider::HueSlider);
+    lay->addRow("JKQTEColorSlider, horizontal, HueSlider:", slider);
+
+    //! [Example: JKQTEColorSlider]
+
+    slider=new JKQTEColorSlider(Qt::Horizontal, wid);
+    slider->setColorMode(JKQTEColorSlider::GreySlider);
+    lay->addRow("JKQTEColorSlider, horizontal, GreySlider:", slider);
+
+    slider=new JKQTEColorSlider(Qt::Horizontal, wid);
+    slider->setColorMode(JKQTEColorSlider::RedSlider);
+    lay->addRow("JKQTEColorSlider, horizontal, RedSlider:", slider);
+
+    slider=new JKQTEColorSlider(Qt::Horizontal, wid);
+    slider->setColorMode(JKQTEColorSlider::GreenSlider);
+    lay->addRow("JKQTEColorSlider, horizontal, GreenSlider:", slider);
+
+    slider=new JKQTEColorSlider(Qt::Horizontal, wid);
+    slider->setColorMode(JKQTEColorSlider::BlueSlider);
+    lay->addRow("JKQTEColorSlider, horizontal, BlueSlider:", slider);
+
+    slider=new JKQTEColorSlider(Qt::Vertical, wid);
+    slider->setColorMode(JKQTEColorSlider::HueSlider);
+    lay->addRow("JKQTEColorSlider, vertical, HueSlider:", slider);
+
+    return wid;
 }
 
 

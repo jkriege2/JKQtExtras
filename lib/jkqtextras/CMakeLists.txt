@@ -23,7 +23,8 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(SOURCES
     jkqtevisiblehandlesplitter.cpp
     jkqteprogresslistwidget.cpp
-	jkqtemodernprogress.cpp
+    jkqtemodernprogress.cpp
+    jkqtecolorslider.cpp
 )
 
 
@@ -32,7 +33,8 @@ set(HEADERS
     jkqtextras_imexport.h
     jkqtevisiblehandlesplitter.h
     jkqteprogresslistwidget.h
-	jkqtemodernprogress.h
+    jkqtemodernprogress.h
+    jkqtecolorslider.h
 )
 
 
