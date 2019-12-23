@@ -86,8 +86,10 @@ class JKQTEXTRAS_LIB_EXPORT JKQTEColorSlider : public QSlider {
          *
          *  the appearance and the range of the slider depend on this */
         enum IndicatorStyle {
-            DoubleArrowIndicator=0,  /**< draws two inward pointing triangles as indicator \image html JKQTEColorSlider_DoubleArrowIndicator.png */
-            CircleIndicator,   /**< draws a circle as indicator  \image html JKQTEColorSlider_CircleIndicator.png */
+            FixedColorDoubleArrowIndicator=0,  /**< draws two inward pointing triangles as indicator, filled with indicatorBrush() \image html JKQTEColorSlider_FixedColorDoubleArrowIndicator.png */
+            FixedColorCircleIndicator,   /**< draws a circle as indicator, filled with indicatorBrush()  \image html JKQTEColorSlider_FixedColorCircleIndicator.png */
+            SelectedColorDoubleArrowIndicator,  /**< draws two inward pointing triangles as indicator, filled with the current color \image html JKQTEColorSlider_SelectedColorDoubleArrowIndicator.png */
+            SelectedColorCircleIndicator,   /**< draws a circle as indicator, filled with the current color  \image html JKQTEColorSlider_SelectedColorCircleIndicator.png */
         };
         Q_ENUM(IndicatorStyle)
 

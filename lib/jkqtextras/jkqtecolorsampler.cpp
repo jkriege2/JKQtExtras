@@ -44,6 +44,7 @@ void JKQTEColorSampler::setSamplerMode(JKQTEColorSampler::SamplerMode m)
 void JKQTEColorSampler::paintEvent(QPaintEvent */*ev*/)
 {
     QPainter p(this);
+    p.setRenderHints(QPainter::Antialiasing);
     QPainterPath path;
     if (m_samplerMode==RectangleSampler) {
         path.addRect(QRect(0,0,width()-1,height()-1));

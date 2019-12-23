@@ -25,7 +25,7 @@ JKQTEColorSlider::JKQTEColorSlider(QWidget *parent):
     m_baseColor(defaultBaseColor(HueSlider)),
     m_indicatorBrush(QColor("black")),
     m_indicatorPen(QColor("white")),
-    m_indicatorStyle(DoubleArrowIndicator)
+    m_indicatorStyle(FixedColorDoubleArrowIndicator)
 {
     setSliderMode(HueSlider);
     connect(this, &QSlider::valueChanged, this, &JKQTEColorSlider::baseSliderChanged);
@@ -219,9 +219,9 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
         for (int y=0; y<imgBack.height(); y++) {
             for (int x=0; x<imgBack.width(); x++) {
                 if (y%sqSize<sqSize/2) {
-                    if (x%sqSize<sqSize/2) imgBack.setPixel(x,y,QColor("black").rgb());
+                    if (x%sqSize<sqSize/2) imgBack.setPixel(x,y,QColor("grey").rgb());
                 } else {
-                    if (x%sqSize>=sqSize/2) imgBack.setPixel(x,y,QColor("black").rgb());
+                    if (x%sqSize>=sqSize/2) imgBack.setPixel(x,y,QColor("grey").rgb());
                 }
             }
         }
@@ -229,6 +229,7 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
     }
 
     QPainter painter(this);
+    painter.setRenderHints(QPainter::Antialiasing);
     QBrush bback;
     bback.setTexture(QPixmap::fromImage(imgBack));
     bback.setStyle(Qt::TexturePattern);
@@ -329,22 +330,29 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
     if (orientation()==Qt::Horizontal) {
         const int sliderPos=(value()-minimum())*width()/(maximum()-minimum());
         QPainterPath path;
-        if (indicatorStyle()==DoubleArrowIndicator) {
-            path.moveTo(sliderPos-markerSize/2, 0);
-            path.lineTo(sliderPos+markerSize/2, 0);
+        if (indicatorStyle()==FixedColorDoubleArrowIndicator || indicatorStyle()==SelectedColorDoubleArrowIndicator) {
+            path.moveTo(sliderPos-markerSize/2, 1);
+            path.lineTo(sliderPos+markerSize/2, 1);
             path.lineTo(sliderPos, markerSize/2);
             path.lineTo(sliderPos, height()-markerSize/2);
-            path.lineTo(sliderPos+markerSize/2, height());
-            path.lineTo(sliderPos-markerSize/2, height());
+            path.lineTo(sliderPos+markerSize/2, height()-1);
+            path.lineTo(sliderPos-markerSize/2, height()-1);
             path.lineTo(sliderPos, height()-markerSize/2);
             path.lineTo(sliderPos, markerSize/2);
             path.closeSubpath();
-        } else if (indicatorStyle()==CircleIndicator) {
+        } else if (indicatorStyle()==FixedColorCircleIndicator || indicatorStyle()==SelectedColorCircleIndicator) {
             const int d=qMin(16, qMin(width(), height())/2);
-            path.addEllipse(QPointF(sliderPos, height()/2), d/2, d/2);
+            path.addEllipse(QPointF(sliderPos, height()/2), d/2+1, d/2+1);
         }
         painter.drawImage(QRect(0,0,width(),height()), img);
-        painter.fillPath(path, m_indicatorBrush);
+        painter.setBrush(Qt::NoBrush);
+        painter.setPen(QPen(m_indicatorBrush, 3));
+        painter.drawPath(path);
+        if (indicatorStyle()==FixedColorDoubleArrowIndicator||indicatorStyle()==FixedColorCircleIndicator) {
+            painter.setBrush(m_indicatorBrush);
+        } else {
+            painter.setBrush(QBrush(modifiedColor()));
+        }
         painter.setPen(m_indicatorPen);
         painter.drawPath(path);
     } else {
@@ -353,21 +361,28 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
         painter.drawImage(QRect(0,0,width(),height()), img.transformed(transform));
         const int sliderPos=height()-(value()-minimum())*height()/(maximum()-minimum());
         QPainterPath path;
-        if (indicatorStyle()==DoubleArrowIndicator) {
-            path.moveTo(0, sliderPos-markerSize/2);
-            path.lineTo(0, sliderPos+markerSize/2);
+        if (indicatorStyle()==FixedColorDoubleArrowIndicator || indicatorStyle()==SelectedColorDoubleArrowIndicator) {
+            path.moveTo(1, sliderPos-markerSize/2);
+            path.lineTo(1, sliderPos+markerSize/2);
             path.lineTo(markerSize/2, sliderPos);
             path.lineTo(width()-markerSize/2, sliderPos);
-            path.lineTo(width(), sliderPos+markerSize/2);
-            path.lineTo(width(), sliderPos-markerSize/2);
+            path.lineTo(width()-1, sliderPos+markerSize/2);
+            path.lineTo(width()-1, sliderPos-markerSize/2);
             path.lineTo(width()-markerSize/2, sliderPos);
             path.lineTo(markerSize/2, sliderPos);
             path.closeSubpath();
-        } else if (indicatorStyle()==CircleIndicator) {
+        } else if (indicatorStyle()==FixedColorCircleIndicator || indicatorStyle()==SelectedColorCircleIndicator) {
             const int d=qMin(16, qMin(width(), height())/2);
-            path.addEllipse(QPointF(width()/2, sliderPos), d/2, d/2);
+            path.addEllipse(QPointF(width()/2, sliderPos), d/2+1, d/2+1);
         }
-        painter.fillPath(path, m_indicatorBrush);
+        painter.setBrush(Qt::NoBrush);
+        painter.setPen(QPen(m_indicatorBrush, 3));
+        painter.drawPath(path);
+        if (indicatorStyle()==FixedColorDoubleArrowIndicator||indicatorStyle()==FixedColorCircleIndicator) {
+            painter.setBrush(m_indicatorBrush);
+        } else {
+            painter.setBrush(QBrush(modifiedColor()));
+        }
         painter.setPen(m_indicatorPen);
         painter.drawPath(path);
     }
