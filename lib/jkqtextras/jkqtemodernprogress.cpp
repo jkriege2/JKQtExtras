@@ -336,7 +336,7 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
   m_pix.fill(Qt::transparent);
 
   QPainter painter(&m_pix);
-
+  painter.setRenderHint(QPainter::Antialiasing);
   painter.save();
   painter.setBrush(m_innerCircleBackgroundColor);
   painter.setPen(Qt::NoPen);
@@ -349,7 +349,6 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
     strokePen.setCapStyle(Qt::RoundCap);
     strokePen.setJoinStyle(Qt::RoundJoin);
     painter.save();
-    painter.setRenderHint(QPainter::Antialiasing, true);
     painter.translate(center);
     if (m_spin)
       painter.rotate(-dAngle * (double)currentItem);
@@ -388,7 +387,6 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
     painter.restore();
   } else if (m_mode == JKQTEModernProgressWidget::Circles) {
     painter.save();
-    painter.setRenderHint(QPainter::Antialiasing, true);
     painter.translate(center);
     if (m_spin)
       painter.rotate(-dAngle * (double)currentItem);
@@ -427,8 +425,8 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
       } else {
         painter.setPen(QColor(Qt::transparent));
       }
-      double d = (rOut - rIn) / 2.0;
-      painter.drawEllipse(0, (rIn + rOut) / 2.0, d, d);
+      double d = (rOut - rIn) / 3.0;
+      painter.drawEllipse(QPointF(0, (rIn + rOut) / 2.0), d, d);
       painter.rotate(dAngle);
     }
     painter.restore();
@@ -463,16 +461,56 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
     // Draw the ring background
     painter.setPen(Qt::NoPen);
     painter.setBrush(m_indicatorBackgroundColor);
-    painter.setRenderHint(QPainter::Antialiasing);
     painter.drawPath(pathBack);
 
     // Draw the ring foreground
     painter.setPen(Qt::NoPen);
     painter.setBrush(m_indicatorColor);
-    painter.setRenderHint(QPainter::Antialiasing);
     painter.drawPath(path);
 
     painter.restore();
+  } else if (m_mode == JKQTEModernProgressWidget::RoundedStrokeRing) {
+      painter.save();
+      QPainterPath pathBack;
+      pathBack.setFillRule(Qt::OddEvenFill);
+      pathBack.addEllipse(QPointF(0, 0), rOut, rOut);
+      pathBack.addEllipse(QPointF(0, 0), rIn, rIn);
+
+      const double rMid=(rIn+rOut)/2.0;
+      QPainterPath path;
+
+      if (m_spin) {
+          const double a1=0;//;
+          const double a2=fmod(360.0 * (double)m_smoothSpinItem/(double)m_smoothItems*1.0, 360.0);
+          path.moveTo(QPointF(rMid, 0));
+          path.arcTo(-rMid, -rMid, 2.0*rMid, 2.0*rMid,a1,a2);
+      } else {
+          path.moveTo(QPointF(rMid, 0));
+          path.arcTo(-rMid, -rMid, 2.0*rMid, 2.0*rMid,0, -1.0*displayFrac*360.0);
+      }
+
+      painter.translate(center);
+      if (m_spin) {
+          painter.rotate(-fmod(360.0 * (double)m_smoothSpinItem/(double)m_smoothItems*1.0, 360.0));
+      } else {
+          painter.rotate(-90);
+      }
+
+      // Draw the ring background
+      painter.setPen(Qt::NoPen);
+      painter.setBrush(m_indicatorBackgroundColor);
+      painter.drawEllipse(QPointF(0, 0), rOut, rOut);
+      painter.setBrush(m_innerCircleBackgroundColor);
+      painter.drawEllipse(QPointF(0, 0), rIn, rIn);
+
+      // Draw the ring foreground
+      QPen pe(m_indicatorColor, fabs(rOut-rIn));
+      pe.setCapStyle(Qt::RoundCap);
+      painter.setPen(pe);
+      painter.setBrush(Qt::NoBrush);
+      painter.drawPath(path);
+
+      painter.restore();
   } else if (m_mode == JKQTEModernProgressWidget::GradientRing) {
       painter.save();
       QPainterPath path;
@@ -489,7 +527,6 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
       // Draw the ring background
       painter.setPen(Qt::NoPen);
       painter.setBrush(m_indicatorBackgroundColor);
-      painter.setRenderHint(QPainter::Antialiasing);
       painter.drawPath(path);
 
       // Draw the ring foreground

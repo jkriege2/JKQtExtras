@@ -53,6 +53,7 @@ public:
     Circles,      /**< a ring of circles \image html JKQTEModernProgressWidget_circles.png */
     Ring,         /**< a ring filled with a color \image html JKQTEModernProgressWidget_Ring.png */
     GradientRing, /**< a ring filled with a color gradient \image html JKQTEModernProgressWidget_GradientRing.png */
+    RoundedStrokeRing, /**< a ring filled with a color \image html JKQTEModernProgressWidget_RoundedStrokeRing.png */
   };
 
   /** \brief mode of percentage display */

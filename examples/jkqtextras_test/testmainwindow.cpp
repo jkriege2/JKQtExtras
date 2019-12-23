@@ -49,8 +49,11 @@ QWidget* TestMainWindow::testVisibleHandleSplitter()
 
 QWidget *TestMainWindow::testJKQTEProgressListWidget()
 {
+    QWidget* wid=new QWidget(this);
+    QVBoxLayout* lay=new QVBoxLayout;
+    wid->setLayout(lay);
     //! [Example: JKQTEProgressListWidget]
-    JKQTEProgressListWidget* progress=new JKQTEProgressListWidget(this);
+    JKQTEProgressListWidget* progress=new JKQTEProgressListWidget(wid);
     progress->addItem("item 1", JKQTEProgressListWidget::statusNotStarted);
     progress->addItem("item 2", JKQTEProgressListWidget::statusNotStarted);
     progress->addItem("item 3", JKQTEProgressListWidget::statusNotStarted);
@@ -78,7 +81,10 @@ QWidget *TestMainWindow::testJKQTEProgressListWidget()
 
     //! [Example: JKQTEProgressListWidget]
 
-    return progress;
+    lay->addWidget(progress);
+    lay->addStretch(1);
+
+    return wid;
 }
 
 QWidget *TestMainWindow::testJKQTEColorSlider()
@@ -90,11 +96,11 @@ QWidget *TestMainWindow::testJKQTEColorSlider()
 
     JKQTEColorSlider* slider=new JKQTEColorSlider(Qt::Horizontal, wid);
     slider->setSliderMode(JKQTEColorSlider::HueSlider);
-    slider->setIndicatorStyle(JKQTEColorSlider::DoubleArrowIndicator);
+    slider->setIndicatorStyle(JKQTEColorSlider::FixedColorDoubleArrowIndicator);
     lay->addRow("JKQTEColorSlider, horizontal, HueSlider:", slider);
 
     //! [Example: JKQTEColorSlider]
-    //slider->setIndicatorStyle(JKQTEColorSlider::CircleIndicator);
+    //slider->setIndicatorStyle(JKQTEColorSlider::FixedColorCircleIndicator);
 
     slider=new JKQTEColorSlider(Qt::Horizontal, wid);
     slider->setSliderMode(JKQTEColorSlider::SaturationSlider);
@@ -127,7 +133,7 @@ QWidget *TestMainWindow::testJKQTEColorSlider()
 
     slider=new JKQTEColorSlider(Qt::Vertical, wid);
     slider->setSliderMode(JKQTEColorSlider::HueSlider);
-    slider->setIndicatorStyle(JKQTEColorSlider::CircleIndicator);
+    slider->setIndicatorStyle(JKQTEColorSlider::FixedColorCircleIndicator);
     lay->addRow("JKQTEColorSlider, vertical, HueSlider:", slider);
 
     //! [Example: JKQTEColorSliderRGBGroup]
@@ -179,6 +185,7 @@ QWidget *TestMainWindow::testJKQTEColorSlider()
     sliderB->setValue(200);
 
     lay->addRow(tr("RGB Chooser"), grp);
+
 
     return wid;
 }
@@ -336,6 +343,49 @@ QWidget *TestMainWindow::testJKQTEModernProgressWidget()
     connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPerc, SLOT(setItems(int)));
 
     lay->addWidget(new QLabel(tr("JKQTEProgressListWidget: mode=Ring:")), row,0);
+    lay->addWidget(progress, row, 1);
+    lay->addWidget(progressPerc, row, 2);
+    lay->addWidget(progressVal, row, 3);
+    lay->addWidget(progressSpin, row, 4);
+    lay->addWidget(progressSpinPerc, row, 5);
+    row++;
+
+
+
+
+    progress=new JKQTEModernProgressWidget(main);
+    progress->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
+    progress->setRange(0,100);
+    connect(slider, &QSlider::valueChanged, progress, &JKQTEModernProgressWidget::setValue);
+    connect(spinItems, SIGNAL(valueChanged(int)), progress, SLOT(setItems(int)));
+
+
+    progressPerc=new JKQTEModernProgressWidget(main);
+    progressPerc->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
+    progressPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
+    connect(slider, &QSlider::valueChanged, progressPerc, &JKQTEModernProgressWidget::setValue);
+    connect(spinItems, SIGNAL(valueChanged(int)), progressPerc, SLOT(setItems(int)));
+
+    progressVal=new JKQTEModernProgressWidget(main);
+    progressVal->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
+    progressVal->setTextDisplayMode(JKQTEModernProgressWidget::ValueText);
+    progressVal->setSuffix("/100");
+    connect(slider, &QSlider::valueChanged, progressVal, &JKQTEModernProgressWidget::setValue);
+    connect(spinItems, SIGNAL(valueChanged(int)), progressVal, SLOT(setItems(int)));
+
+    progressSpin=new JKQTEModernProgressWidget(main);
+    progressSpin->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
+    progressSpin->setSpin(true);
+    connect(spinItems, SIGNAL(valueChanged(int)), progressSpin, SLOT(setItems(int)));
+
+    progressSpinPerc=new JKQTEModernProgressWidget(main);
+    progressSpinPerc->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
+    progressSpinPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
+    progressSpinPerc->setSpin(true);
+    connect(slider, &QSlider::valueChanged, progressSpinPerc, &JKQTEModernProgressWidget::setValue);
+    connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPerc, SLOT(setItems(int)));
+
+    lay->addWidget(new QLabel(tr("JKQTEProgressListWidget: mode=RoundedStrokeRing:")), row,0);
     lay->addWidget(progress, row, 1);
     lay->addWidget(progressPerc, row, 2);
     lay->addWidget(progressVal, row, 3);
