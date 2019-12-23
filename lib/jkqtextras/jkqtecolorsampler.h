@@ -15,7 +15,7 @@
     \snippet jkqtextras_test/testmainwindow.cpp Example: JKQTEColorSampler
 
 */
-class JKQTEColorSampler : public QWidget
+class JKQTEXTRAS_LIB_EXPORT JKQTEColorSampler : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(SamplerMode samplerMode READ samplerMode WRITE setSamplerMode USER true)

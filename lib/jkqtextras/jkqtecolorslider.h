@@ -36,7 +36,7 @@
 
     Basic usage is simple:
 
-    \snippet jkqtextras_test/testmainwindow.cpp Example: JKQTEHueSlider
+    \snippet jkqtextras_test/testmainwindow.cpp Example: JKQTEColorSlider
 
     \section JKQTEColorSliderBaseColorMode Base Color Mode
 
