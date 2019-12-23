@@ -5,11 +5,11 @@ This section assembles some simple examples of usage.
 
 
 
-<!--<table>
+<table>
 <tr><th> Screenshot    <th> Description   <th> Notes  
 <tr><td> \image html jkqtextras_test_small.png
     <td> \subpage JKQTExtrasTest
 	<td> demonstrates all widgets in this library
-</table>-->
+</table>
 
 */

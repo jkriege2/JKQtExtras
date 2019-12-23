@@ -1,0 +1,39 @@
+/*!
+\page WidgetGallery JKQTExtras Gallery
+
+<table>
+<tr><th colspan="3">\ref JKQtExtrasWidgetsLayout
+<tr><td> \image html JKQTEVisibleHandleSplitter_logo.png
+    <td> JKQTEVisibleHandleSplitter
+	<td> \copybrief JKQTEVisibleHandleSplitter
+	
+<tr><th colspan="3">\ref JKQtExtrasWidgetsProgress
+<tr><td> \image html JKQTEProgressListWidget_logo.png
+    <td> JKQTEProgressListWidget
+	<td> \copybrief JKQTEProgressListWidget
+	
+<tr><td> \image html JKQTEProgressListWidget_logo.png
+    <td> JKQTEProgressListDialog
+	<td> \copybrief JKQTEProgressListDialog
+	
+<tr><td> \image html JKQTEModernProgressWidget_logo.png
+    <td> JKQTEModernProgressWidget
+	<td> \copybrief JKQTEModernProgressWidget
+	
+<tr><td> \image html JKQTEModernProgressWidget_logo.png
+    <td> JKQTEModernProgressDialog
+	<td> \copybrief JKQTEModernProgressDialog
+	
+<tr><th colspan="3">\ref JKQtExtrasWidgetsSliders
+<tr><td> \image html JKQTEColorSlider_logo.png
+    <td> JKQTEColorSlider
+	<td> \copybrief JKQTEColorSlider
+	
+<tr><th colspan="3">\ref JKQtExtrasWidgetsLabels
+<tr><td> \image html JKQTEColorSampler_logo.png
+    <td> JKQTEColorSampler
+	<td> \copybrief JKQTEColorSampler
+	
+</table>
+
+*/

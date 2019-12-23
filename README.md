@@ -21,10 +21,9 @@ This software is licensed under the term of the [GNU Lesser General Public Licen
 [![Open PRs](https://img.shields.io/github/issues-pr/jkriege2/JKQtExtras)](https://github.com/jkriege2/JKQtExtras/pulls)
 [![Closed PRs](https://img.shields.io/github/issues-pr-closed/jkriege2/JKQtExtras)](https://github.com/jkriege2/JKQtExtras/pulls?q=is%3Apr+is%3Aclosed)
 
-![EXAMPLES-Page](./screenshots/examplesbanner.png)
 
 ## Main Features
-
+- [Widget Gallery](https://jkriege2.github.io/JKQtExtras/_widget_gallery.html)
 - CMake-based build system
 - extensive set of [Examples/Tutorials](./examples/README.md)
 - extensive doxygen-generated [Documentation](http://jkriege2.github.io/JKQtExtras/index.html)

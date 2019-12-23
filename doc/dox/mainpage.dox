@@ -11,6 +11,7 @@
  
 
 \section jkqtp_main_features Main Features
+- \ref WidgetGallery
 - CMake-based build system, see: \ref page_buildinstructions_CMAKE
 - \ref exampleTutorialProjects "extensive set of Examples and Tutorials"
 - extensive doxygen-generated <a href="http://jkriege2.github.io/JKQtExtras/index.html">Online-Documentation (http://jkriege2.github.io/JKQtExtras/index.html)</a>
@@ -19,6 +20,7 @@
 \section JKQtExtrastic Table Of Contents
 - Documentation of Major Classes:
   - \ref JKQtExtras
+  - \ref WidgetGallery
 - \ref licensepage
 - \ref page_buildinstructions
 - \ref page_whatsnew
