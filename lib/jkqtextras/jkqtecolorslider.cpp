@@ -21,20 +21,42 @@
 
 
 JKQTEColorSlider::JKQTEColorSlider(QWidget *parent):
-    QSlider(parent)
+    QSlider(parent),
+    m_baseColor(defaultBaseColor(HueSlider)),
+    m_indicatorBrush(QColor("black")),
+    m_indicatorPen(QColor("white")),
+    m_indicatorStyle(DoubleArrowIndicator)
 {
-    setColorMode(HueSlider);
+    setSliderMode(HueSlider);
+    connect(this, &QSlider::valueChanged, this, &JKQTEColorSlider::baseSliderChanged);
 }
 
 JKQTEColorSlider::JKQTEColorSlider(Qt::Orientation orientation, QWidget *parent):
-    QSlider(parent)
+    JKQTEColorSlider(parent)
 {
     setOrientation(orientation);
 }
 
-JKQTEColorSlider::SliderMode JKQTEColorSlider::colorMode() const
+JKQTEColorSlider::JKQTEColorSlider(JKQTEColorSlider::SliderMode mode, QWidget *parent):
+    JKQTEColorSlider(parent)
+{
+    setSliderMode(mode);
+}
+
+JKQTEColorSlider::JKQTEColorSlider(JKQTEColorSlider::SliderMode mode, Qt::Orientation orientation, QWidget *parent):
+    JKQTEColorSlider(orientation, parent)
+{
+    setSliderMode(mode);
+}
+
+JKQTEColorSlider::SliderMode JKQTEColorSlider::sliderMode() const
 {
     return m_mode;
+}
+
+JKQTEColorSlider::IndicatorStyle JKQTEColorSlider::indicatorStyle() const
+{
+    return m_indicatorStyle;
 }
 
 QColor JKQTEColorSlider::modifiedColor(QColor colorIn) const
@@ -47,6 +69,23 @@ QColor JKQTEColorSlider::modifiedColor(QColor colorIn) const
             colorIn.getHsv(&h,&s,&v);
             color.setHsv(value(), s, v);
         }
+        break;
+    case SaturationSlider:
+        {
+            int h,s,v;
+            colorIn.getHsv(&h,&s,&v);
+            color.setHsv(h, value(), v);
+        }
+        break;
+    case ValueSlider:
+        {
+            int h,s,v;
+            colorIn.getHsv(&h,&s,&v);
+            color.setHsv(h, s, value());
+        }
+        break;
+    case TransparencySlider:
+        color.setAlpha(value());
         break;
     case RedSlider:
         color.setRed(value());
@@ -64,6 +103,54 @@ QColor JKQTEColorSlider::modifiedColor(QColor colorIn) const
     return color;
 }
 
+QColor JKQTEColorSlider::modifiedColor() const
+{
+    return modifiedColor(baseColor());
+}
+
+QColor JKQTEColorSlider::baseColor() const
+{
+    return m_baseColor;
+}
+
+const QBrush &JKQTEColorSlider::indicatorBrush() const
+{
+    return m_indicatorBrush;
+}
+
+const QPen &JKQTEColorSlider::indicatorPen() const
+{
+    return m_indicatorPen;
+}
+
+QBrush &JKQTEColorSlider::indicatorBrush()
+{
+    return m_indicatorBrush;
+}
+
+QPen &JKQTEColorSlider::indicatorPen()
+{
+    return m_indicatorPen;
+}
+
+void JKQTEColorSlider::setIndicatorBrush(const QBrush &b)
+{
+    m_indicatorBrush=b;
+    update();
+}
+
+void JKQTEColorSlider::setIndicatorPen(const QPen &p)
+{
+    m_indicatorPen=p;
+    update();
+}
+
+void JKQTEColorSlider::setIndicatorStyle(JKQTEColorSlider::IndicatorStyle s)
+{
+    m_indicatorStyle=s;
+    update();
+}
+
 QSize JKQTEColorSlider::minimumSizeHint() const
 {
     return QSlider::minimumSizeHint();
@@ -74,8 +161,9 @@ QSize JKQTEColorSlider::sizeHint() const
     return QSlider::sizeHint();
 }
 
-void JKQTEColorSlider::setColorMode(JKQTEColorSlider::SliderMode mode)
+void JKQTEColorSlider::setSliderMode(JKQTEColorSlider::SliderMode mode)
 {
+    const bool hadDefaultBaseColor=(baseColor()==defaultBaseColor(m_mode));
     m_mode=mode;
     switch(mode) {
     case HueSlider:
@@ -85,13 +173,67 @@ void JKQTEColorSlider::setColorMode(JKQTEColorSlider::SliderMode mode)
         setRange(0,255);
         break;
     }
+    if (hadDefaultBaseColor) setBaseColor(defaultBaseColor(m_mode));
 
     update();
+    setValue(value());
+    baseSliderChanged(value());
+}
+
+void JKQTEColorSlider::setBaseColor(QColor baseColor)
+{
+    m_baseColor=baseColor;
+    update();
+    baseSliderChanged(value());
+}
+
+void JKQTEColorSlider::baseSliderChanged(int /*value*/)
+{
+    emit colorChanged(modifiedColor());
+}
+
+QColor JKQTEColorSlider::defaultBaseColor(JKQTEColorSlider::SliderMode mode)
+{
+    switch(mode) {
+    case HueSlider:
+    case SaturationSlider:
+    case ValueSlider:
+        return QColor("red");
+    case RedSlider:
+    case GreenSlider:
+    case BlueSlider:
+    case GreySlider:
+        return QColor("black");
+    case TransparencySlider:
+        return QColor("white");
+    }
 }
 
 void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
 {
+    static QImage imgBack(16,16,QImage::Format_ARGB32);
+    static bool hasImgBack=false;
+    if (!hasImgBack) {
+        imgBack.fill(QColor("transparent"));
+        const int sqSize=8;
+        for (int y=0; y<imgBack.height(); y++) {
+            for (int x=0; x<imgBack.width(); x++) {
+                if (y%sqSize<sqSize/2) {
+                    if (x%sqSize<sqSize/2) imgBack.setPixel(x,y,QColor("black").rgb());
+                } else {
+                    if (x%sqSize>=sqSize/2) imgBack.setPixel(x,y,QColor("black").rgb());
+                }
+            }
+        }
+        hasImgBack=true;
+    }
+
     QPainter painter(this);
+    QBrush bback;
+    bback.setTexture(QPixmap::fromImage(imgBack));
+    bback.setStyle(Qt::TexturePattern);
+    painter.fillRect(QRect(0,0,width(),height()), bback);
+
     QImage img;
 
     switch(m_mode) {
@@ -99,19 +241,42 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
             {
                 int h,s,v;
                 img=QImage(361, 1, QImage::Format_ARGB32);
-                QColor("red").getHsv(&h,&s,&v);
-                qDebug()<<h<<s<<v;
-                QColor color("red");
+                baseColor().getHsv(&h,&s,&v);
+                QColor color(baseColor());
                 for (int i=0; i<img.width(); i++) {
                     color.setHsv(i, s, v);
                     img.setPixel(i, 0, color.rgba());
                 }
             }
             break;
+        case SaturationSlider:
+            {
+                int h,s,v;
+                img=QImage(256, 1, QImage::Format_ARGB32);
+                baseColor().getHsv(&h,&s,&v);
+                QColor color(baseColor());
+                for (int i=0; i<img.width(); i++) {
+                    color.setHsv(h, i, v);
+                    img.setPixel(i, 0, color.rgba());
+                }
+            }
+            break;
+        case ValueSlider:
+            {
+                int h,s,v;
+                img=QImage(256, 1, QImage::Format_ARGB32);
+                baseColor().getHsv(&h,&s,&v);
+                QColor color(baseColor());
+                for (int i=0; i<img.width(); i++) {
+                    color.setHsv(h, s, i);
+                    img.setPixel(i, 0, color.rgba());
+                }
+            }
+            break;
         case RedSlider:
             {
-                img=QImage(255, 1, QImage::Format_ARGB32);
-                QColor color("black");
+                img=QImage(256, 1, QImage::Format_ARGB32);
+                QColor color(baseColor());
                 for (int i=0; i<img.width(); i++) {
                     color.setRed(i);
                     img.setPixel(i, 0, color.rgba());
@@ -120,8 +285,8 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
             break;
         case GreenSlider:
             {
-                img=QImage(255, 1, QImage::Format_ARGB32);
-                QColor color("black");
+                img=QImage(256, 1, QImage::Format_ARGB32);
+                QColor color(baseColor());
                 for (int i=0; i<img.width(); i++) {
                     color.setGreen(i);
                     img.setPixel(i, 0, color.rgba());
@@ -130,8 +295,8 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
             break;
         case BlueSlider:
             {
-                img=QImage(255, 1, QImage::Format_ARGB32);
-                QColor color("black");
+                img=QImage(256, 1, QImage::Format_ARGB32);
+                QColor color(baseColor());
                 for (int i=0; i<img.width(); i++) {
                     color.setBlue(i);
                     img.setPixel(i, 0, color.rgba());
@@ -141,9 +306,19 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
         case GreySlider:
             {
                 img=QImage(255, 1, QImage::Format_ARGB32);
-                QColor color("black");
+                QColor color(baseColor());
                 for (int i=0; i<img.width(); i++) {
                     color.setRgb(i,i,i);
+                    img.setPixel(i, 0, color.rgba());
+                }
+            }
+            break;
+        case TransparencySlider:
+            {
+                img=QImage(255, 1, QImage::Format_ARGB32);
+                QColor color(baseColor());
+                for (int i=0; i<img.width(); i++) {
+                    color.setAlpha(i);
                     img.setPixel(i, 0, color.rgba());
                 }
             }
@@ -154,33 +329,47 @@ void JKQTEColorSlider::paintEvent(QPaintEvent *ev)
     if (orientation()==Qt::Horizontal) {
         const int sliderPos=(value()-minimum())*width()/(maximum()-minimum());
         QPainterPath path;
-        path.moveTo(sliderPos-markerSize/2, 0);
-        path.lineTo(sliderPos+markerSize/2, 0);
-        path.lineTo(sliderPos, markerSize/2);
-        path.lineTo(sliderPos, height()-markerSize/2);
-        path.lineTo(sliderPos+markerSize/2, height());
-        path.lineTo(sliderPos-markerSize/2, height());
-        path.lineTo(sliderPos, height()-markerSize/2);
-        path.lineTo(sliderPos, markerSize/2);
-        path.closeSubpath();
+        if (indicatorStyle()==DoubleArrowIndicator) {
+            path.moveTo(sliderPos-markerSize/2, 0);
+            path.lineTo(sliderPos+markerSize/2, 0);
+            path.lineTo(sliderPos, markerSize/2);
+            path.lineTo(sliderPos, height()-markerSize/2);
+            path.lineTo(sliderPos+markerSize/2, height());
+            path.lineTo(sliderPos-markerSize/2, height());
+            path.lineTo(sliderPos, height()-markerSize/2);
+            path.lineTo(sliderPos, markerSize/2);
+            path.closeSubpath();
+        } else if (indicatorStyle()==CircleIndicator) {
+            const int d=qMin(16, qMin(width(), height())/2);
+            path.addEllipse(QPointF(sliderPos, height()/2), d/2, d/2);
+        }
         painter.drawImage(QRect(0,0,width(),height()), img);
-        painter.fillPath(path, QBrush("black"));
+        painter.fillPath(path, m_indicatorBrush);
+        painter.setPen(m_indicatorPen);
+        painter.drawPath(path);
     } else {
         QTransform transform;
         transform.rotate(90);
         painter.drawImage(QRect(0,0,width(),height()), img.transformed(transform));
         const int sliderPos=height()-(value()-minimum())*height()/(maximum()-minimum());
         QPainterPath path;
-        path.moveTo(0, sliderPos-markerSize/2);
-        path.lineTo(0, sliderPos+markerSize/2);
-        path.lineTo(markerSize/2, sliderPos);
-        path.lineTo(width()-markerSize/2, sliderPos);
-        path.lineTo(width(), sliderPos+markerSize/2);
-        path.lineTo(width(), sliderPos-markerSize/2);
-        path.lineTo(width()-markerSize/2, sliderPos);
-        path.lineTo(markerSize/2, sliderPos);
-        path.closeSubpath();
-        painter.fillPath(path, QBrush("black"));
+        if (indicatorStyle()==DoubleArrowIndicator) {
+            path.moveTo(0, sliderPos-markerSize/2);
+            path.lineTo(0, sliderPos+markerSize/2);
+            path.lineTo(markerSize/2, sliderPos);
+            path.lineTo(width()-markerSize/2, sliderPos);
+            path.lineTo(width(), sliderPos+markerSize/2);
+            path.lineTo(width(), sliderPos-markerSize/2);
+            path.lineTo(width()-markerSize/2, sliderPos);
+            path.lineTo(markerSize/2, sliderPos);
+            path.closeSubpath();
+        } else if (indicatorStyle()==CircleIndicator) {
+            const int d=qMin(16, qMin(width(), height())/2);
+            path.addEllipse(QPointF(width()/2, sliderPos), d/2, d/2);
+        }
+        painter.fillPath(path, m_indicatorBrush);
+        painter.setPen(m_indicatorPen);
+        painter.drawPath(path);
     }
 
     ev->accept();

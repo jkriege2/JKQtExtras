@@ -25,6 +25,7 @@ set(SOURCES
     jkqteprogresslistwidget.cpp
     jkqtemodernprogress.cpp
     jkqtecolorslider.cpp
+    jkqtecolorsampler.cpp
 )
 
 
@@ -35,6 +36,7 @@ set(HEADERS
     jkqteprogresslistwidget.h
     jkqtemodernprogress.h
     jkqtecolorslider.h
+    jkqtecolorsampler.h
 )
 
 

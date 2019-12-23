@@ -15,6 +15,9 @@
 \defgroup JKQtExtrasWidgetsEdits Edit Fields
 \ingroup JKQtExtrasWidgets
 
+\defgroup JKQtExtrasWidgetsLabels Labels, Image Views, ...
+\ingroup JKQtExtrasWidgets
+
 \defgroup JKQtExtrasWidgetsSliders Sliders ...
 \ingroup JKQtExtrasWidgets
 

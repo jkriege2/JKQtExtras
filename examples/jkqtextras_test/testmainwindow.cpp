@@ -4,10 +4,12 @@
 #include "jkqtextras/jkqteprogresslistwidget.h"
 #include "jkqtextras/jkqtemodernprogress.h"
 #include "jkqtextras/jkqtecolorslider.h"
+#include "jkqtextras/jkqtecolorsampler.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QSlider>
 #include <QSpinBox>
+#include <QGroupBox>
 
 TestMainWindow::TestMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -87,30 +89,96 @@ QWidget *TestMainWindow::testJKQTEColorSlider()
     //! [Example: JKQTEColorSlider]
 
     JKQTEColorSlider* slider=new JKQTEColorSlider(Qt::Horizontal, wid);
-    slider->setColorMode(JKQTEColorSlider::HueSlider);
+    slider->setSliderMode(JKQTEColorSlider::HueSlider);
+    slider->setIndicatorStyle(JKQTEColorSlider::DoubleArrowIndicator);
     lay->addRow("JKQTEColorSlider, horizontal, HueSlider:", slider);
 
     //! [Example: JKQTEColorSlider]
+    //slider->setIndicatorStyle(JKQTEColorSlider::CircleIndicator);
 
     slider=new JKQTEColorSlider(Qt::Horizontal, wid);
-    slider->setColorMode(JKQTEColorSlider::GreySlider);
+    slider->setSliderMode(JKQTEColorSlider::SaturationSlider);
+    lay->addRow("JKQTEColorSlider, horizontal, SaturationSlider:", slider);
+
+    slider=new JKQTEColorSlider(Qt::Horizontal, wid);
+    slider->setSliderMode(JKQTEColorSlider::ValueSlider);
+    lay->addRow("JKQTEColorSlider, horizontal, ValueSlider:", slider);
+
+    slider=new JKQTEColorSlider(Qt::Horizontal, wid);
+    slider->setSliderMode(JKQTEColorSlider::TransparencySlider);
+    slider->setBaseColor(QColor("blue"));
+    lay->addRow("JKQTEColorSlider, horizontal, TransparencySlider:", slider);
+    slider=new JKQTEColorSlider(Qt::Horizontal, wid);
+    slider->setSliderMode(JKQTEColorSlider::GreySlider);
     lay->addRow("JKQTEColorSlider, horizontal, GreySlider:", slider);
 
     slider=new JKQTEColorSlider(Qt::Horizontal, wid);
-    slider->setColorMode(JKQTEColorSlider::RedSlider);
+    slider->setSliderMode(JKQTEColorSlider::RedSlider);
     lay->addRow("JKQTEColorSlider, horizontal, RedSlider:", slider);
 
     slider=new JKQTEColorSlider(Qt::Horizontal, wid);
-    slider->setColorMode(JKQTEColorSlider::GreenSlider);
+    slider->setSliderMode(JKQTEColorSlider::GreenSlider);
     lay->addRow("JKQTEColorSlider, horizontal, GreenSlider:", slider);
 
     slider=new JKQTEColorSlider(Qt::Horizontal, wid);
-    slider->setColorMode(JKQTEColorSlider::BlueSlider);
+    slider->setSliderMode(JKQTEColorSlider::BlueSlider);
     lay->addRow("JKQTEColorSlider, horizontal, BlueSlider:", slider);
 
+
     slider=new JKQTEColorSlider(Qt::Vertical, wid);
-    slider->setColorMode(JKQTEColorSlider::HueSlider);
+    slider->setSliderMode(JKQTEColorSlider::HueSlider);
+    slider->setIndicatorStyle(JKQTEColorSlider::CircleIndicator);
     lay->addRow("JKQTEColorSlider, vertical, HueSlider:", slider);
+
+    //! [Example: JKQTEColorSliderRGBGroup]
+
+    QGroupBox* grp=new QGroupBox("RGB chooser");
+    QGridLayout* layGrp=new QGridLayout;
+    grp->setLayout(layGrp);
+
+    JKQTEColorSlider* sliderR=new JKQTEColorSlider(Qt::Horizontal, grp);
+    sliderR->setSliderMode(JKQTEColorSlider::RedSlider);
+    layGrp->addWidget(sliderR, 0,0);
+
+    JKQTEColorSlider* sliderG=new JKQTEColorSlider(Qt::Horizontal, grp);
+    sliderG->setSliderMode(JKQTEColorSlider::GreenSlider);
+    layGrp->addWidget(sliderG, 1,0);
+
+    JKQTEColorSlider* sliderB=new JKQTEColorSlider(Qt::Horizontal, grp);
+    sliderB->setSliderMode(JKQTEColorSlider::BlueSlider);
+    layGrp->addWidget(sliderB, 2,0);
+
+    connect(sliderR, SIGNAL(colorChanged(QColor)), sliderG, SLOT(setBaseColor(QColor)));
+    connect(sliderG, SIGNAL(colorChanged(QColor)), sliderB, SLOT(setBaseColor(QColor)));
+
+    //! [Example: JKQTEColorSliderRGBGroup]
+
+
+    //! [Example: JKQTEColorSampler]
+
+    JKQTEColorSampler* sampler=new JKQTEColorSampler(grp);
+    // set sampler mode
+    sampler->setSamplerMode(JKQTEColorSampler::RectangleSampler);
+    // set sampler color
+    sampler->setColor(QColor("red"));
+
+    //! [Example: JKQTEColorSampler]
+
+    connect(sliderB, SIGNAL(colorChanged(QColor)), sampler, SLOT(setColor(QColor)));
+    layGrp->addWidget(sampler, 2,1);
+    layGrp->setColumnStretch(0,1);
+
+    /*sampler=new JKQTEColorSampler(grp);
+    sampler->setSamplerMode(JKQTEColorSampler::CircleSampler);
+    sampler->setColor(QColor("red"));
+    connect(sliderG, SIGNAL(colorChanged(QColor)), sampler, SLOT(setColor(QColor)));
+    layGrp->addWidget(sampler, 1,1);*/
+
+    sliderR->setValue(127);
+    sliderG->setValue(50);
+    sliderB->setValue(200);
+
+    lay->addRow(tr("RGB Chooser"), grp);
 
     return wid;
 }
