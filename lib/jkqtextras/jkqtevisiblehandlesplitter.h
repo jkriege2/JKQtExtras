@@ -43,11 +43,24 @@
  */
 class JKQTEXTRAS_LIB_EXPORT JKQTEVisibleHandleSplitter : public QSplitter {
         Q_OBJECT
+        Q_PROPERTY(bool decorated READ decorated WRITE setDecorated USER true)
+        Q_PROPERTY(bool hoverEffect READ hoverEffect WRITE setHoverEffect USER true)
+        Q_PROPERTY(int gripWidth READ gripWidth WRITE setGripWidth USER true)
     public:
         explicit JKQTEVisibleHandleSplitter(Qt::Orientation orientation, QWidget *parent = nullptr);
         explicit JKQTEVisibleHandleSplitter(QWidget *parent = nullptr);
+        /** \brief indicates whether the decoration of the handle is on or off (decoration is a roughed up surface area) */
+        bool decorated() const;
+        /** \brief indicates whether the hover effect of the handle is on or off (hover effect highlights the handle when the mouse hovers over it) */
+        bool hoverEffect() const;
+        /** \brief the width of the handle */
+        int gripWidth() const;
+    public slots:
+        /** \brief switches the decoration of the handle on or off (decoration is a roughed up surface area) */
         void setDecorated(bool enabled);
+        /** \brief switches the hover effect of the handle on or off (hover effect highlights the handle when the mouse hovers over it) */
         void setHoverEffect(bool enabled);
+        /** \brief sets the width of the handle */
         void setGripWidth(int width);
     signals:
 
@@ -70,11 +83,17 @@ class JKQTEXTRAS_LIB_EXPORT JKQTEVisibleHandleSplitterHandle: public QSplitterHa
         Q_OBJECT
     public:
         JKQTEVisibleHandleSplitterHandle(Qt::Orientation orientation, QSplitter * parent=nullptr);
+        /** \brief switches the decoration of the handle on or off (decoration is a roughed up surface area) */
         void setDecorated(bool enabled);
+        /** \brief indicates whether the decoration of the handle is on or off (decoration is a roughed up surface area) */
         bool decorated() const;
+        /** \brief switches the hover effect of the handle on or off (hover effect highlights the handle when the mouse hovers over it) */
         void setHoverEffect(bool enabled);
+        /** \brief indicates whether the hover effect of the handle is on or off (hover effect highlights the handle when the mouse hovers over it) */
         bool hoverEffect() const;
+        /** \brief sets the width of the handle */
         void setGripWidth(int width);
+        /** \brief the width of the handle */
         int gripWidth() const;
     protected:
         virtual void leaveEvent(QEvent* event);

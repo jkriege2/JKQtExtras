@@ -99,6 +99,33 @@ JKQTEVisibleHandleSplitter::JKQTEVisibleHandleSplitter(QWidget *parent) :
 {
 }
 
+bool JKQTEVisibleHandleSplitter::decorated() const
+{
+    for (int i=0;i<count(); i++) {
+        JKQTEVisibleHandleSplitterHandle* h=qobject_cast<JKQTEVisibleHandleSplitterHandle*>(handle(i));
+        if (h) return h->decorated();
+    }
+    return false;
+}
+
+bool JKQTEVisibleHandleSplitter::hoverEffect() const
+{
+    for (int i=0;i<count(); i++) {
+        JKQTEVisibleHandleSplitterHandle* h=qobject_cast<JKQTEVisibleHandleSplitterHandle*>(handle(i));
+        if (h) return h->hoverEffect();
+    }
+    return false;
+}
+
+int JKQTEVisibleHandleSplitter::gripWidth() const
+{
+    for (int i=0;i<count(); i++) {
+        JKQTEVisibleHandleSplitterHandle* h=qobject_cast<JKQTEVisibleHandleSplitterHandle*>(handle(i));
+        if (h) return h->gripWidth();
+    }
+    return 0;
+}
+
 QSplitterHandle* JKQTEVisibleHandleSplitter::createHandle() {
     return new JKQTEVisibleHandleSplitterHandle(orientation(), this);
 }
