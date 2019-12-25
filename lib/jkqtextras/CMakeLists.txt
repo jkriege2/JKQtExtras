@@ -26,6 +26,7 @@ set(SOURCES
     jkqtemodernprogress.cpp
     jkqtecolorslider.cpp
     jkqtecolorsampler.cpp
+    jkqtestarratingwidget.cpp
 )
 
 
@@ -37,11 +38,13 @@ set(HEADERS
     jkqtemodernprogress.h
     jkqtecolorslider.h
     jkqtecolorsampler.h
+    jkqtestarratingwidget.h
 )
 
 
 set(RESOURCES
     jkqteprogresslistwidget.qrc
+    jkqtestarratingwidget.qrc
 )
 
 include(CMakePackageConfigHelpers)

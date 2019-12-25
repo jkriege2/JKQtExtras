@@ -5,6 +5,7 @@
 #include "jkqtextras/jkqtemodernprogress.h"
 #include "jkqtextras/jkqtecolorslider.h"
 #include "jkqtextras/jkqtecolorsampler.h"
+#include "jkqtextras/jkqtestarratingwidget.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QSlider>
@@ -22,6 +23,7 @@ TestMainWindow::TestMainWindow(QWidget *parent) :
     ui->tabWidget->addTab(testJKQTEProgressListWidget(), "JKQTEProgressListWidget");
     ui->tabWidget->addTab(testJKQTEModernProgressWidget(), "JKQTEModernProgressWidget");
     ui->tabWidget->addTab(testJKQTEColorSlider(), "JKQTEColorSlider");
+    ui->tabWidget->addTab(testDiverse(), "Diverse Widgets");
     ui->tabWidget->setCurrentIndex(2);
 }
 
@@ -83,6 +85,31 @@ QWidget *TestMainWindow::testJKQTEProgressListWidget()
 
     lay->addWidget(progress);
     lay->addStretch(1);
+
+    return wid;
+}
+
+QWidget *TestMainWindow::testDiverse()
+{
+    QWidget* wid=new QWidget(this);
+    QFormLayout* lay=new QFormLayout;
+    wid->setLayout(lay);
+
+    QLabel* labRating=new QLabel(wid);
+
+    //! [Example: JKQTEStarRatingWidget]
+
+    JKQTEStarRatingWidget* starRating=new JKQTEStarRatingWidget(wid);
+    starRating->setMaximum(5);
+    starRating->setRating(3);
+    connect(starRating, &JKQTEStarRatingWidget::ratingChanged,
+            [labRating,starRating] (int r) {
+                labRating->setText(QString::number(r)+" / "+QString::number(starRating->maximum()));
+            });
+
+    //! [Example: JKQTEStarRatingWidget]
+    lay->addRow("JKQTEStarRatingWidget:", starRating);
+    lay->addRow("", labRating);
 
     return wid;
 }

@@ -20,6 +20,7 @@ protected:
     QWidget *testJKQTEProgressListWidget();
     QWidget *testJKQTEModernProgressWidget();
     QWidget *testJKQTEColorSlider();
+    QWidget *testDiverse();
 private:
     Ui::TestMainWindow *ui;
     QTimer* timJKQTEProgressListWidget;

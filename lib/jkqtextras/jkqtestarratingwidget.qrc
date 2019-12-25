@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/jkqtestarratingwidget">
+        <file alias="star.png">images/star.png</file>
+        <file alias="darkstar.png">images/darkstar.png</file>
+        <file alias="nostar.png">images/nostar.png</file>
+    </qresource>
+</RCC>
