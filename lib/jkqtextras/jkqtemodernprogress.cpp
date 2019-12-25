@@ -47,12 +47,14 @@ JKQTEModernProgressWidget::JKQTEModernProgressWidget(QWidget *parent)
     m_indicatorColor(QColor("darkslateblue")),
     m_textColor(parent->palette().text().color()),
     m_innerCircleBackgroundColor(parent->palette().window().color()),
+    m_innerCircleProgressColor(parent->palette().window().color().darker()),
     m_nonBackgroundRange(0.75),
     m_spin(false),
     m_spinInterval(20),
     m_doRepaint(true),
     m_darkCircleBorder(true),
-    m_mode(JKQTEModernProgressWidget::Strokes)
+    m_mode(JKQTEModernProgressWidget::Strokes),
+    m_innerProgressMode(NoInnerIndicator)
 {
   resize(64, 64);
   setSpin(false);
@@ -135,7 +137,17 @@ QColor JKQTEModernProgressWidget::textColor() const {
 }
 
 JKQTEModernProgressWidget::TextDisplayMode JKQTEModernProgressWidget::textDisplayMode() const {
-  return m_textDisplayMode;
+    return m_textDisplayMode;
+}
+
+JKQTEModernProgressWidget::InnerProgressIndicatorMode JKQTEModernProgressWidget::innerProgressIndicatorMode() const
+{
+    return m_innerProgressMode;
+}
+
+QColor JKQTEModernProgressWidget::innerCircleProgressColor() const
+{
+    return m_innerCircleProgressColor;
 }
 
 void JKQTEModernProgressWidget::setSuffix(QString s) {
@@ -183,6 +195,12 @@ void JKQTEModernProgressWidget::setIndicatorColor(QColor col) {
   updateWidget();
 }
 
+void JKQTEModernProgressWidget::setIndicatorBackgroundColor(QColor col)
+{
+    m_indicatorBackgroundColor=col;
+    updateWidget();
+}
+
 void JKQTEModernProgressWidget::setBackgroundColor(QColor col) {
   m_indicatorBackgroundColor = col;
   updateWidget();
@@ -192,6 +210,12 @@ void JKQTEModernProgressWidget::setInnerCircleBackgroundColor(QColor col)
 {
   m_innerCircleBackgroundColor=col;
   updateWidget();
+}
+
+void JKQTEModernProgressWidget::setInnerCircleProgressColor(QColor col)
+{
+    m_innerCircleProgressColor=col;
+    updateWidget();
 }
 
 void JKQTEModernProgressWidget::updateWidget() {
@@ -241,10 +265,15 @@ void JKQTEModernProgressWidget::setMode(JKQTEModernProgressWidget::Mode m) {
   updateWidget();
 }
 
-void JKQTEModernProgressWidget::setTextDisplayMode(
-    JKQTEModernProgressWidget::TextDisplayMode m) {
+void JKQTEModernProgressWidget::setTextDisplayMode(JKQTEModernProgressWidget::TextDisplayMode m) {
   m_textDisplayMode = m;
-  updateWidget();
+
+}
+
+void JKQTEModernProgressWidget::setInnerProgressIndicatorMode(JKQTEModernProgressWidget::InnerProgressIndicatorMode innerProgressMode)
+{
+    m_innerProgressMode=innerProgressMode;
+    updateWidget();
 }
 
 void JKQTEModernProgressWidget::setMinimum(double val) {
@@ -329,8 +358,8 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
     qSwap(rIn, rOut);
 
   //                           2*M_PI
-  double strokeWidth = qMax(1.0, 6.283 * rIn / (1.75 * (double)m_items));
-  double dAngle = 360.0 / (double)m_items;
+  const double strokeWidth = qMax(1.0, 6.283 * rIn / (1.75 * (double)m_items));
+  const double dAngle = 360.0 / (double)m_items;
 
   // m_pix.fill(this, 0, 0);
   m_pix.fill(Qt::transparent);
@@ -342,6 +371,28 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
   painter.setPen(Qt::NoPen);
   painter.drawEllipse(center,rIn,rIn);
   painter.restore();
+
+  if (m_innerProgressMode==InnerProgressFillVertical) {
+      QPainterPath pInner, pFill;
+      pInner.addEllipse(center, rIn, rIn);
+      pFill.addRect(center.x()-rIn-5.0, center.y()-rIn+(1.0-displayFrac)*2.0*rIn, 2*rIn+10.0, 2*rIn+10.0);
+      pInner=pInner.intersected(pFill);
+      painter.save();
+      painter.setBrush(m_innerCircleProgressColor);
+      painter.setPen(Qt::NoPen);
+      painter.drawPath(pInner);
+      painter.restore();
+  } else if (m_innerProgressMode==InnerProgressFillHorizontal) {
+      QPainterPath pInner, pFill;
+      pInner.addEllipse(center, rIn, rIn);
+      pFill.addRect(center.x()-3.0*rIn+displayFrac*2.0*rIn, center.y()-rIn-5.0, 2*rIn, 2*rIn+10.0);
+      pInner=pInner.intersected(pFill);
+      painter.save();
+      painter.setBrush(m_innerCircleProgressColor);
+      painter.setPen(Qt::NoPen);
+      painter.drawPath(pInner);
+      painter.restore();
+  }
 
   if (m_mode == JKQTEModernProgressWidget::Strokes) {
     QPen strokePen = pen;
@@ -469,6 +520,38 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
     painter.drawPath(path);
 
     painter.restore();
+  } else if (m_mode == JKQTEModernProgressWidget::Pie) {
+      painter.save();
+
+
+      QPainterPath path;
+      path.moveTo(QPointF(0, 0));
+      if (m_spin) {
+          const double a1=fmod(360.0 * (double)m_smoothSpinItem/(double)m_smoothItems*1.0, 360.0);
+          const double a2=fmod(360.0 * (double)m_smoothSpinItem/(double)m_smoothItems*2.0, 360.0);
+          path.arcTo(-rOut, -rOut, 2.0*rOut, 2.0*rOut,a1,a2);
+      } else {
+          path.arcTo(-rOut, -rOut, 2.0*rOut, 2.0*rOut,0, -1.0*displayFrac*360.0);
+      }
+
+      painter.translate(center);
+      if (m_spin) {
+          //painter.rotate(-dAngle * (double)currentItem);
+      } else {
+          painter.rotate(-90);
+      }
+
+      // Draw the ring background
+      painter.setPen(Qt::NoPen);
+      painter.setBrush(m_innerCircleBackgroundColor);
+      painter.drawEllipse(QPointF(0, 0), rOut, rOut);
+
+      // Draw the ring foreground
+      painter.setPen(Qt::NoPen);
+      painter.setBrush(m_indicatorColor);
+      painter.drawPath(path);
+
+      painter.restore();
   } else if (m_mode == JKQTEModernProgressWidget::RoundedStrokeRing) {
       painter.save();
       QPainterPath pathBack;
@@ -499,9 +582,7 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
       // Draw the ring background
       painter.setPen(Qt::NoPen);
       painter.setBrush(m_indicatorBackgroundColor);
-      painter.drawEllipse(QPointF(0, 0), rOut, rOut);
-      painter.setBrush(m_innerCircleBackgroundColor);
-      painter.drawEllipse(QPointF(0, 0), rIn, rIn);
+      painter.drawPath(pathBack);
 
       // Draw the ring foreground
       QPen pe(m_indicatorColor, fabs(rOut-rIn));
@@ -581,30 +662,58 @@ void JKQTEModernProgressWidget::paintEvent(QPaintEvent *event) {
     } else {
       s = QString::number(m_value, 'f', m_precision) + m_suffix;
     }
-    QRect bound = QFontMetrics(f).boundingRect("100%");
+    QRectF bound = QFontMetricsF(f).boundingRect(" 100% ");
     double r = sqrt((bound.width() / 2.0) * (bound.width() / 2.0) +
                     (bound.height() / 2.0) * (bound.height() / 2.0));
     while ((f.pointSize() > 5) && (r > rIn)) {
-      f.setPointSizeF(f.pointSizeF() - 0.5);
-      bound = QFontMetrics(f).boundingRect("100%");
+      f.setPointSizeF(f.pointSizeF() - 0.25);
+      bound = QFontMetricsF(f).boundingRect(" 100% ");
       r = sqrt((bound.width() / 2.0) * (bound.width() / 2.0) +
                (bound.height() / 2.0) * (bound.height() / 2.0));
     }
-    bound = QFontMetrics(f).boundingRect(s);
+    bound = QFontMetricsF(f).boundingRect(s);
     painter.setFont(f);
     painter.setPen(m_textColor);
-    painter.drawText(width() / 2 - bound.width() / 2,
-                     height() / 2 + QFontMetrics(f).ascent() / 2, s);
+    painter.drawText(QRectF(center.x() - bound.width() / 2.0, center.y() - bound.height() / 2.0, bound.width(), bound.height()), s);
     painter.restore();
+
+    if (m_innerProgressMode==InnerProgressBarHorizontal) {
+        const double pheight=std::ceil(qMax(3.0,bound.height()*0.3));
+        const double poffset=qMax(2.0,bound.height()*0.1);
+        const double pwidth=2.0*sqrt(rIn*rIn-fabs(bound.height()/2+pheight+poffset)*fabs(bound.height()/2+pheight+poffset))*0.85;
+        QRectF progRec(center.x()-pwidth/2.0,center.y()+bound.height()/2.0+qMax(2.0,bound.height()*0.1), pwidth, pheight);
+        painter.save();
+        painter.setBrush(Qt::NoBrush);
+        painter.setPen(m_innerCircleProgressColor);
+        painter.drawRect(progRec);
+        painter.setBrush(m_innerCircleProgressColor);
+        progRec.setWidth(progRec.width()*displayFrac);
+        painter.drawRect(progRec);
+        painter.restore();
+    }
+
+  } else {
+      if (m_innerProgressMode==InnerProgressBarHorizontal) {
+          const double pheight=std::ceil(qMax(3.0,rIn*0.1));
+          const double pwidth=2.0*sqrt(rIn*rIn-(pheight/2.0)*(pheight/2.0))*0.75;
+          QRectF progRec(center.x()-pwidth/2.0,center.y()-pheight/2.0, pwidth, pheight);
+          painter.save();
+          painter.setBrush(Qt::NoBrush);
+          painter.setPen(m_innerCircleProgressColor);
+          painter.drawRect(progRec);
+          painter.setBrush(m_innerCircleProgressColor);
+          progRec.setWidth(progRec.width()*displayFrac);
+          painter.drawRect(progRec);
+          painter.restore();
+      }
   }
-  //}
   QPainter p(this);
   p.drawPixmap(QPoint(0, 0), m_pix);
 }
 
-JKQTEModernProgressDialog::JKQTEModernProgressDialog(QWidget *parent,
-                                                     Qt::WindowFlags f)
-    : QDialog(parent, f) {
+JKQTEModernProgressDialog::JKQTEModernProgressDialog(QWidget *parent, Qt::WindowFlags f)
+    : QDialog(parent, f)
+{
   createWidgets();
 }
 

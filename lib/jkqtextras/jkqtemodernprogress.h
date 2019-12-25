@@ -42,10 +42,42 @@
 
    Usage example:
 
-   \snippet jkqtextras_test/testmainwindow.cpp Example: JKQTEModernProgressWidget
+   \code
+    JKQTEModernProgressWidget* progress=new JKQTEModernProgressWidget(main);
+    // choose a mode
+    progress->setMode(JKQTEModernProgressWidget::Circles);
+    // set the range (these may be any doubles)
+    progress->setRange(0,100);
+    // set the display mode of the text in the center of the widget (here: OFF)
+    progress->setTextDisplayMode(JKQTEModernProgressWidget::NoText);
+    // set the suffix for the text display (e.g. to display "25/100" when JKQTEModernProgressWidget::ValueText is used)
+    progress->setSuffix("/100");
+    // connect to a slider, so we see can change the progress for demonstration
+    connect(slider, &QSlider::valueChanged, progress, &JKQTEModernProgressWidget::setValue);
+   \endcode
 */
 class JKQTEXTRAS_LIB_EXPORT JKQTEModernProgressWidget : public QWidget {
   Q_OBJECT
+  Q_PROPERTY(QColor innerCircleProgressColor READ innerCircleProgressColor WRITE setInnerCircleProgressColor USER true)
+  Q_PROPERTY(InnerProgressIndicatorMode innerProgressIndicatorMode READ innerProgressIndicatorMode WRITE setInnerProgressIndicatorMode USER true)
+  Q_PROPERTY(TextDisplayMode textDisplayMode READ textDisplayMode WRITE setTextDisplayMode USER true)
+  Q_PROPERTY(Mode mode READ mode WRITE setMode USER true)
+  Q_PROPERTY(int items READ items WRITE setItems USER true)
+  Q_PROPERTY(int spinInterval READ spinInterval WRITE setSpinInterval USER true)
+  Q_PROPERTY(bool spin READ spin WRITE setSpin USER true)
+  Q_PROPERTY(QColor indicatorColor READ indicatorColor WRITE setIndicatorColor USER true)
+  Q_PROPERTY(QColor stopColor READ stopColor WRITE setStopColor USER true)
+  Q_PROPERTY(QColor startColor READ startColor WRITE setStartColor USER true)
+  Q_PROPERTY(QColor innerCircleBackgroundColor READ innerCircleBackgroundColor WRITE setInnerCircleBackgroundColor USER true)
+  Q_PROPERTY(QColor indicatorBackgroundColor READ indicatorBackgroundColor WRITE setIndicatorBackgroundColor USER true)
+  Q_PROPERTY(double nonBackgroundRange READ nonBackgroundRange WRITE setNonBackgroundRange USER true)
+  Q_PROPERTY(double innerRadius READ innerRadius WRITE setInnerRadius USER true)
+  Q_PROPERTY(double outerRadius READ outerRadius WRITE setOuterRadius USER true)
+  Q_PROPERTY(double value READ value WRITE setValue USER true)
+  Q_PROPERTY(double maximum READ maximum WRITE setMaximum USER true)
+  Q_PROPERTY(double minimum READ minimum WRITE setMinimum USER true)
+  Q_PROPERTY(int precision READ precision WRITE setPrecision USER true)
+  Q_PROPERTY(QString suffix READ suffix WRITE setSuffix USER true)
 public:
   /** \brief modes of the progress widget */
   enum Mode {
@@ -54,14 +86,26 @@ public:
     Ring,         /**< a ring filled with a color \image html JKQTEModernProgressWidget_Ring.png */
     GradientRing, /**< a ring filled with a color gradient \image html JKQTEModernProgressWidget_GradientRing.png */
     RoundedStrokeRing, /**< a ring filled with a color \image html JKQTEModernProgressWidget_RoundedStrokeRing.png */
+    Pie, /**< a pie filled with a color \image html JKQTEModernProgressWidget_Pie.png */
   };
+  Q_ENUM(Mode)
 
   /** \brief mode of percentage display */
   enum TextDisplayMode {
-    NoText,      /**< do not display any text */
-    PercentText, /**< display the percentage (value() between minimum() and maximum() ) */
-    ValueText    /**< display the value with the given suffix */
+      NoText,      /**< do not display any text \image html JKQTEModernProgressWidget_NoText.png */
+      PercentText, /**< display the percentage (value() between minimum() and maximum() ) \image html JKQTEModernProgressWidget_PercentText.png */
+      ValueText    /**< display the value with the given suffix() (suffix() \c =="/100" in the example image)  \image html JKQTEModernProgressWidget_ValueText.png */
   };
+  Q_ENUM(TextDisplayMode)
+
+  /** \brief mode of percentage display */
+  enum InnerProgressIndicatorMode {
+      NoInnerIndicator,      /**< do not display a progress indicator in the center \image html JKQTEModernProgressWidget_NoInnerIndicator.png */
+      InnerProgressBarHorizontal,      /**< display a progress bar in the center (below the text) \image html JKQTEModernProgressWidget_InnerProgressBarHorizontal.png */
+      InnerProgressFillVertical,     /**< fill the center, depending on the progress, using innerCircleProgressColor() (behind the text) \image html JKQTEModernProgressWidget_InnerProgressFillVertical.png */
+      InnerProgressFillHorizontal,     /**< fill the center, depending on the progress, using innerCircleProgressColor() (behind the text) \image html JKQTEModernProgressWidget_InnerProgressFillHorizontal.png */
+  };
+  Q_ENUM(InnerProgressIndicatorMode)
 
   JKQTEModernProgressWidget(QWidget *parent = NULL);
   virtual ~JKQTEModernProgressWidget();
@@ -108,6 +152,10 @@ public:
   QColor textColor() const;
   /** \brief type of text display mode */
   TextDisplayMode textDisplayMode() const;
+  /** \brief type of inner progress indicator */
+  InnerProgressIndicatorMode innerProgressIndicatorMode() const;
+  /** \brief backround color of the inner circle progress indicator */
+  QColor innerCircleProgressColor() const;
 
 
 public slots:
@@ -140,11 +188,15 @@ public slots:
   void setStopColor(QColor col);
   /** \brief color of the current item */
   void setIndicatorColor(QColor col);
+  /** \brief background color behind the indicator items */
+  void setIndicatorBackgroundColor(QColor col);
   /** \brief color of an indicator, when inactive (usually a bit darker than the
    * widget background color) */
   void setBackgroundColor(QColor col);
   /** \brief backround color of the inner circle */
   void setInnerCircleBackgroundColor(QColor col);
+  /** \brief backround color of the inner circle progress indicator */
+  void setInnerCircleProgressColor(QColor col);
   /** \brief is an automatic spin going on? */
   void setSpin(bool enabled);
   /** \brief interval (milliseconds) of the movement if spin() is \c true */
@@ -155,6 +207,8 @@ public slots:
   void setMode(Mode m);
   /** \brief type of text display mode */
   void setTextDisplayMode(TextDisplayMode m);
+  /** \brief type of inner progress indicator */
+  void setInnerProgressIndicatorMode(InnerProgressIndicatorMode innerProgressMode);
 protected:
   virtual void paintEvent(QPaintEvent *event);
   virtual void resizeEvent(QResizeEvent *event);
@@ -184,6 +238,7 @@ private:
   QColor m_textColor;
   /** \brief backround color of the inner circle */
   QColor m_innerCircleBackgroundColor;
+  QColor m_innerCircleProgressColor;
   double m_nonBackgroundRange;
   bool m_spin;
   int m_spinInterval;
@@ -192,6 +247,7 @@ private:
   bool m_darkCircleBorder;
 
   Mode m_mode;
+  InnerProgressIndicatorMode m_innerProgressMode;
 
   QTimer timer;
 };

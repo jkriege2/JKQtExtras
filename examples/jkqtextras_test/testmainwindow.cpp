@@ -190,6 +190,82 @@ QWidget *TestMainWindow::testJKQTEColorSlider()
     return wid;
 }
 
+#define ADDMODERNPROGRESSROW(row, type, name) \
+    {\
+        JKQTEModernProgressWidget* progress=new JKQTEModernProgressWidget(main); \
+        progress->setMode(type); \
+        progress->setTextDisplayMode(JKQTEModernProgressWidget::NoText); \
+        connect(slider, &QSlider::valueChanged, progress, &JKQTEModernProgressWidget::setValue); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progress, SLOT(setItems(int))); \
+         \
+        JKQTEModernProgressWidget* progressPerc=new JKQTEModernProgressWidget(main); \
+        progressPerc->setMode(type); \
+        progressPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText); \
+        connect(slider, &QSlider::valueChanged, progressPerc, &JKQTEModernProgressWidget::setValue); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progressPerc, SLOT(setItems(int))); \
+         \
+        JKQTEModernProgressWidget* progressVal=new JKQTEModernProgressWidget(main); \
+        progressVal->setMode(type); \
+        progressVal->setTextDisplayMode(JKQTEModernProgressWidget::ValueText); \
+        progressVal->setSuffix("/100"); \
+        connect(slider, &QSlider::valueChanged, progressVal, &JKQTEModernProgressWidget::setValue); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progressVal, SLOT(setItems(int))); \
+         \
+        JKQTEModernProgressWidget* progressSpin=new JKQTEModernProgressWidget(main); \
+        progressSpin->setMode(type); \
+        progressSpin->setSpin(true); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progressSpin, SLOT(setItems(int))); \
+         \
+        JKQTEModernProgressWidget* progressSpinPerc=new JKQTEModernProgressWidget(main); \
+        progressSpinPerc->setMode(type); \
+        progressSpinPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText); \
+        progressSpinPerc->setSpin(true); \
+        connect(slider, &QSlider::valueChanged, progressSpinPerc, &JKQTEModernProgressWidget::setValue); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPerc, SLOT(setItems(int))); \
+         \
+        JKQTEModernProgressWidget* progressSpinPercProgBarH=new JKQTEModernProgressWidget(main); \
+        progressSpinPercProgBarH->setMode(type); \
+        progressSpinPercProgBarH->setTextDisplayMode(JKQTEModernProgressWidget::PercentText); \
+        progressSpinPercProgBarH->setInnerProgressIndicatorMode(JKQTEModernProgressWidget::InnerProgressBarHorizontal); \
+        progressSpinPercProgBarH->setSpin(true); \
+        connect(slider, &QSlider::valueChanged, progressSpinPercProgBarH, &JKQTEModernProgressWidget::setValue); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPercProgBarH, SLOT(setItems(int))); \
+         \
+        JKQTEModernProgressWidget* progressSpinPercProgFillH=new JKQTEModernProgressWidget(main); \
+        progressSpinPercProgFillH->setMode(type); \
+        progressSpinPercProgFillH->setTextDisplayMode(JKQTEModernProgressWidget::PercentText); \
+        progressSpinPercProgFillH->setInnerProgressIndicatorMode(JKQTEModernProgressWidget::InnerProgressFillHorizontal); \
+        progressSpinPercProgFillH->setSpin(true); \
+        connect(slider, &QSlider::valueChanged, progressSpinPercProgFillH, &JKQTEModernProgressWidget::setValue); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPercProgFillH, SLOT(setItems(int))); \
+         \
+        JKQTEModernProgressWidget* progressSpinPercProgFillV=new JKQTEModernProgressWidget(main); \
+        progressSpinPercProgFillV->setMode(type); \
+        progressSpinPercProgFillV->setTextDisplayMode(JKQTEModernProgressWidget::PercentText); \
+        progressSpinPercProgFillV->setInnerProgressIndicatorMode(JKQTEModernProgressWidget::InnerProgressFillVertical); \
+        progressSpinPercProgFillV->setSpin(true); \
+        connect(slider, &QSlider::valueChanged, progressSpinPercProgFillV, &JKQTEModernProgressWidget::setValue); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPercProgFillV, SLOT(setItems(int))); \
+         \
+        JKQTEModernProgressWidget* progressSpinProgBarH=new JKQTEModernProgressWidget(main); \
+        progressSpinProgBarH->setMode(type); \
+        progressSpinProgBarH->setTextDisplayMode(JKQTEModernProgressWidget::NoText); \
+        progressSpinProgBarH->setInnerProgressIndicatorMode(JKQTEModernProgressWidget::InnerProgressBarHorizontal); \
+        progressSpinProgBarH->setSpin(true); \
+        connect(slider, &QSlider::valueChanged, progressSpinProgBarH, &JKQTEModernProgressWidget::setValue); \
+        connect(spinItems, SIGNAL(valueChanged(int)), progressSpinProgBarH, SLOT(setItems(int))); \
+         \
+        lay->addWidget(new QLabel(name), row,0); \
+        lay->addWidget(progress, row, 1); \
+        lay->addWidget(progressPerc, row, 2); \
+        lay->addWidget(progressVal, row, 3); \
+        lay->addWidget(progressSpin, row, 4); \
+        lay->addWidget(progressSpinPerc, row, 5); \
+        lay->addWidget(progressSpinPercProgBarH, row, 6); \
+        lay->addWidget(progressSpinPercProgFillH, row, 7); \
+        lay->addWidget(progressSpinPercProgFillV, row, 8); \
+        lay->addWidget(progressSpinProgBarH, row, 9); \
+    }
 
 QWidget *TestMainWindow::testJKQTEModernProgressWidget()
 {
@@ -215,226 +291,32 @@ QWidget *TestMainWindow::testJKQTEModernProgressWidget()
     lay->addWidget(new QLabel(tr("default\nValueText\nspin=false")), row,3);
     lay->addWidget(new QLabel(tr("default\nNoText\nspin=true")), row,4);
     lay->addWidget(new QLabel(tr("default\nPercentText\nspin=true")), row,5);
-    row++;
-
-    //! [Example: JKQTEModernProgressWidget]
-
-    JKQTEModernProgressWidget* progress=new JKQTEModernProgressWidget(main);
-    // choose a mode
-    progress->setMode(JKQTEModernProgressWidget::Circles);
-    // set the range (these may be any doubles)
-    progress->setRange(0,100);
-    // set the display mode of the text in the center of the widget (here: OFF)
-    progress->setTextDisplayMode(JKQTEModernProgressWidget::NoText);
-    // set the suffix for the text display (e.g. to display "25/100" when JKQTEModernProgressWidget::ValueText is used)
-    progress->setSuffix("/100");
-    // connect to a slider, so we see can change the progress for demonstration
-    connect(slider, &QSlider::valueChanged, progress, &JKQTEModernProgressWidget::setValue);
-
-    //! [Example: JKQTEModernProgressWidget]
-
-    connect(spinItems, SIGNAL(valueChanged(int)), progress, SLOT(setItems(int)));
-    spinItems->setValue(progress->items());
-
-    JKQTEModernProgressWidget* progressPerc=new JKQTEModernProgressWidget(main);
-    progressPerc->setMode(JKQTEModernProgressWidget::Circles);
-    progressPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    connect(slider, &QSlider::valueChanged, progressPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressPerc, SLOT(setItems(int)));
-
-    JKQTEModernProgressWidget* progressVal=new JKQTEModernProgressWidget(main);
-    progressVal->setMode(JKQTEModernProgressWidget::Circles);
-    progressVal->setTextDisplayMode(JKQTEModernProgressWidget::ValueText);
-    progressVal->setSuffix("/100");
-    connect(slider, &QSlider::valueChanged, progressVal, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressVal, SLOT(setItems(int)));
-
-    JKQTEModernProgressWidget* progressSpin=new JKQTEModernProgressWidget(main);
-    progressSpin->setMode(JKQTEModernProgressWidget::Circles);
-    progressSpin->setSpin(true);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpin, SLOT(setItems(int)));
-
-    JKQTEModernProgressWidget* progressSpinPerc=new JKQTEModernProgressWidget(main);
-    progressSpinPerc->setMode(JKQTEModernProgressWidget::Circles);
-    progressSpinPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    progressSpinPerc->setSpin(true);
-    connect(slider, &QSlider::valueChanged, progressSpinPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPerc, SLOT(setItems(int)));
-
-    lay->addWidget(new QLabel(tr("JKQTEProgressListWidget: mode=Circles:")), row,0);
-    lay->addWidget(progress, row, 1);
-    lay->addWidget(progressPerc, row, 2);
-    lay->addWidget(progressVal, row, 3);
-    lay->addWidget(progressSpin, row, 4);
-    lay->addWidget(progressSpinPerc, row, 5);
-    row++;
-
-    progress=new JKQTEModernProgressWidget(main);
-    progress->setMode(JKQTEModernProgressWidget::Strokes);
-    progress->setRange(0,100);
-    connect(slider, &QSlider::valueChanged, progress, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progress, SLOT(setItems(int)));
-
-    progressPerc=new JKQTEModernProgressWidget(main);
-    progressPerc->setMode(JKQTEModernProgressWidget::Strokes);
-    progressPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    connect(slider, &QSlider::valueChanged, progressPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressPerc, SLOT(setItems(int)));
-
-    progressVal=new JKQTEModernProgressWidget(main);
-    progressVal->setMode(JKQTEModernProgressWidget::Strokes);
-    progressVal->setTextDisplayMode(JKQTEModernProgressWidget::ValueText);
-    progressVal->setSuffix("/100");
-    connect(slider, &QSlider::valueChanged, progressVal, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressVal, SLOT(setItems(int)));
-
-    progressSpin=new JKQTEModernProgressWidget(main);
-    progressSpin->setMode(JKQTEModernProgressWidget::Strokes);
-    progressSpin->setSpin(true);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpin, SLOT(setItems(int)));
-
-    progressSpinPerc=new JKQTEModernProgressWidget(main);
-    progressSpinPerc->setMode(JKQTEModernProgressWidget::Strokes);
-    progressSpinPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    progressSpinPerc->setSpin(true);
-    connect(slider, &QSlider::valueChanged, progressSpinPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPerc, SLOT(setItems(int)));
-
-    lay->addWidget(new QLabel(tr("JKQTEProgressListWidget: mode=Strokes:")), row,0);
-    lay->addWidget(progress, row, 1);
-    lay->addWidget(progressPerc, row, 2);
-    lay->addWidget(progressVal, row, 3);
-    lay->addWidget(progressSpin, row, 4);
-    lay->addWidget(progressSpinPerc, row, 5);
+    lay->addWidget(new QLabel(tr("default\nPercentText\nspin=true\nprog=HBar")), row,6);
+    lay->addWidget(new QLabel(tr("default\nPercentText\nspin=true\nprog=HFill")), row,7);
+    lay->addWidget(new QLabel(tr("default\nPercentText\nspin=true\nprog=VFill")), row,8);
+    lay->addWidget(new QLabel(tr("default\nNoText\nspin=true\nprog=HBar")), row,9);
     row++;
 
 
+    ADDMODERNPROGRESSROW(row, JKQTEModernProgressWidget::Circles, tr("JKQTEProgressListWidget: mode=Circles:"))
+    row++;
 
-    progress=new JKQTEModernProgressWidget(main);
-    progress->setMode(JKQTEModernProgressWidget::Ring);
-    progress->setRange(0,100);
-    connect(slider, &QSlider::valueChanged, progress, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progress, SLOT(setItems(int)));
+    ADDMODERNPROGRESSROW(row, JKQTEModernProgressWidget::Strokes, tr("JKQTEProgressListWidget: mode=Strokes:"))
+    row++;
 
+    ADDMODERNPROGRESSROW(row, JKQTEModernProgressWidget::Ring, tr("JKQTEProgressListWidget: mode=Ring:"))
+    row++;
 
-    progressPerc=new JKQTEModernProgressWidget(main);
-    progressPerc->setMode(JKQTEModernProgressWidget::Ring);
-    progressPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    connect(slider, &QSlider::valueChanged, progressPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressPerc, SLOT(setItems(int)));
+    ADDMODERNPROGRESSROW(row, JKQTEModernProgressWidget::RoundedStrokeRing, tr("JKQTEProgressListWidget: mode=RoundedStrokeRing:"))
+    row++;
 
-    progressVal=new JKQTEModernProgressWidget(main);
-    progressVal->setMode(JKQTEModernProgressWidget::Ring);
-    progressVal->setTextDisplayMode(JKQTEModernProgressWidget::ValueText);
-    progressVal->setSuffix("/100");
-    connect(slider, &QSlider::valueChanged, progressVal, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressVal, SLOT(setItems(int)));
+    ADDMODERNPROGRESSROW(row, JKQTEModernProgressWidget::GradientRing, tr("JKQTEProgressListWidget: mode=GradientRing:"))
+    row++;
 
-    progressSpin=new JKQTEModernProgressWidget(main);
-    progressSpin->setMode(JKQTEModernProgressWidget::Ring);
-    progressSpin->setSpin(true);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpin, SLOT(setItems(int)));
-
-    progressSpinPerc=new JKQTEModernProgressWidget(main);
-    progressSpinPerc->setMode(JKQTEModernProgressWidget::Ring);
-    progressSpinPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    progressSpinPerc->setSpin(true);
-    connect(slider, &QSlider::valueChanged, progressSpinPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPerc, SLOT(setItems(int)));
-
-    lay->addWidget(new QLabel(tr("JKQTEProgressListWidget: mode=Ring:")), row,0);
-    lay->addWidget(progress, row, 1);
-    lay->addWidget(progressPerc, row, 2);
-    lay->addWidget(progressVal, row, 3);
-    lay->addWidget(progressSpin, row, 4);
-    lay->addWidget(progressSpinPerc, row, 5);
+    ADDMODERNPROGRESSROW(row, JKQTEModernProgressWidget::Pie, tr("JKQTEProgressListWidget: mode=Pie:"))
     row++;
 
 
-
-
-    progress=new JKQTEModernProgressWidget(main);
-    progress->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
-    progress->setRange(0,100);
-    connect(slider, &QSlider::valueChanged, progress, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progress, SLOT(setItems(int)));
-
-
-    progressPerc=new JKQTEModernProgressWidget(main);
-    progressPerc->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
-    progressPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    connect(slider, &QSlider::valueChanged, progressPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressPerc, SLOT(setItems(int)));
-
-    progressVal=new JKQTEModernProgressWidget(main);
-    progressVal->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
-    progressVal->setTextDisplayMode(JKQTEModernProgressWidget::ValueText);
-    progressVal->setSuffix("/100");
-    connect(slider, &QSlider::valueChanged, progressVal, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressVal, SLOT(setItems(int)));
-
-    progressSpin=new JKQTEModernProgressWidget(main);
-    progressSpin->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
-    progressSpin->setSpin(true);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpin, SLOT(setItems(int)));
-
-    progressSpinPerc=new JKQTEModernProgressWidget(main);
-    progressSpinPerc->setMode(JKQTEModernProgressWidget::RoundedStrokeRing);
-    progressSpinPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    progressSpinPerc->setSpin(true);
-    connect(slider, &QSlider::valueChanged, progressSpinPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPerc, SLOT(setItems(int)));
-
-    lay->addWidget(new QLabel(tr("JKQTEProgressListWidget: mode=RoundedStrokeRing:")), row,0);
-    lay->addWidget(progress, row, 1);
-    lay->addWidget(progressPerc, row, 2);
-    lay->addWidget(progressVal, row, 3);
-    lay->addWidget(progressSpin, row, 4);
-    lay->addWidget(progressSpinPerc, row, 5);
-    row++;
-
-
-
-
-    progress=new JKQTEModernProgressWidget(main);
-    progress->setMode(JKQTEModernProgressWidget::GradientRing);
-    progress->setRange(0,100);
-    connect(slider, &QSlider::valueChanged, progress, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progress, SLOT(setItems(int)));
-
-
-    progressPerc=new JKQTEModernProgressWidget(main);
-    progressPerc->setMode(JKQTEModernProgressWidget::GradientRing);
-    progressPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    connect(slider, &QSlider::valueChanged, progressPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressPerc, SLOT(setItems(int)));
-
-    progressVal=new JKQTEModernProgressWidget(main);
-    progressVal->setMode(JKQTEModernProgressWidget::GradientRing);
-    progressVal->setTextDisplayMode(JKQTEModernProgressWidget::ValueText);
-    progressVal->setSuffix("/100");
-    connect(slider, &QSlider::valueChanged, progressVal, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressVal, SLOT(setItems(int)));
-
-    progressSpin=new JKQTEModernProgressWidget(main);
-    progressSpin->setMode(JKQTEModernProgressWidget::GradientRing);
-    progressSpin->setSpin(true);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpin, SLOT(setItems(int)));
-
-    progressSpinPerc=new JKQTEModernProgressWidget(main);
-    progressSpinPerc->setMode(JKQTEModernProgressWidget::GradientRing);
-    progressSpinPerc->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
-    progressSpinPerc->setSpin(true);
-    connect(slider, &QSlider::valueChanged, progressSpinPerc, &JKQTEModernProgressWidget::setValue);
-    connect(spinItems, SIGNAL(valueChanged(int)), progressSpinPerc, SLOT(setItems(int)));
-
-    lay->addWidget(new QLabel(tr("JKQTEProgressListWidget: mode=GradientRing:")), row,0);
-    lay->addWidget(progress, row, 1);
-    lay->addWidget(progressPerc, row, 2);
-    lay->addWidget(progressVal, row, 3);
-    lay->addWidget(progressSpin, row, 4);
-    lay->addWidget(progressSpinPerc, row, 5);
-    row++;
 
 
     slider->setValue(50);
