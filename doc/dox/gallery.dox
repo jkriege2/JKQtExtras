@@ -40,6 +40,12 @@
     <td> JKQTEStarRatingWidget
 	<td> \copybrief JKQTEStarRatingWidget
 	
+	
+<tr><th colspan="3">\ref JKQtExtrasWidgetsEdits
+<tr><td> \image html JKQTEEnhancedComboBox_logo.png
+    <td> JKQTEEnhancedComboBox
+	<td> \copybrief JKQTEEnhancedComboBox
+	
 </table>
 
 */

@@ -28,6 +28,7 @@ set(SOURCES
     jkqtecolorsampler.cpp
     jkqtestarratingwidget.cpp
     jkqteverticalscrollarea.cpp
+    jkqteenhancedcombobox.cpp
 )
 
 
@@ -41,6 +42,7 @@ set(HEADERS
     jkqtecolorsampler.h
     jkqtestarratingwidget.h
     jkqteverticalscrollarea.h
+    jkqteenhancedcombobox.h
 )
 
 

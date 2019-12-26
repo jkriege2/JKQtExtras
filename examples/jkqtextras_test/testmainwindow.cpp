@@ -6,6 +6,7 @@
 #include "jkqtextras/jkqtecolorslider.h"
 #include "jkqtextras/jkqtecolorsampler.h"
 #include "jkqtextras/jkqtestarratingwidget.h"
+#include "jkqtextras/jkqteenhancedcombobox.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QSlider>
@@ -110,6 +111,75 @@ QWidget *TestMainWindow::testDiverse()
     //! [Example: JKQTEStarRatingWidget]
     lay->addRow("JKQTEStarRatingWidget:", starRating);
     lay->addRow("", labRating);
+
+
+    QLabel* labcmbEditable=new QLabel(wid);
+    QLabel* labcmbNonEditable=new QLabel(wid);
+    QLabel* labcmbReadOnly=new QLabel(wid);
+    QLabel* labcmbReadOnlyEditable=new QLabel(wid);
+
+    //! [Example: JKQTEEnhancedComboBox]
+
+    JKQTEEnhancedComboBox* cmbReadOnly=new JKQTEEnhancedComboBox(wid);
+    cmbReadOnly->setReadonly(true);
+    cmbReadOnly->setEditable(false);
+    cmbReadOnly->addItem("item 1");
+    cmbReadOnly->addItem("item 2");
+    cmbReadOnly->addItem("item 3");
+    cmbReadOnly->addItem("item 4");
+    cmbReadOnly->setCurrentIndex(1);
+    connect(cmbReadOnly, &JKQTEEnhancedComboBox::editingFinished,
+            [labcmbReadOnly, cmbReadOnly]() {
+                labcmbReadOnly->setText(tr("editingFinished: text=%1").arg(cmbReadOnly->currentText()));
+            });
+
+    JKQTEEnhancedComboBox* cmbReadOnlyEditable=new JKQTEEnhancedComboBox(wid);
+    cmbReadOnlyEditable->setReadonly(true);
+    cmbReadOnlyEditable->setEditable(true);
+    cmbReadOnlyEditable->addItem("item 1");
+    cmbReadOnlyEditable->addItem("item 2");
+    cmbReadOnlyEditable->addItem("item 3");
+    cmbReadOnlyEditable->addItem("item 4");
+    cmbReadOnlyEditable->setCurrentIndex(1);
+    connect(cmbReadOnlyEditable, &JKQTEEnhancedComboBox::editingFinished,
+            [labcmbReadOnlyEditable, cmbReadOnlyEditable]() {
+                labcmbReadOnlyEditable->setText(tr("editingFinished: text=%1").arg(cmbReadOnlyEditable->currentText()));
+            });
+
+    JKQTEEnhancedComboBox* cmbEditable=new JKQTEEnhancedComboBox(wid);
+    cmbEditable->addItem("item 1");
+    cmbEditable->addItem("item 2");
+    cmbEditable->addItem("item 3");
+    cmbEditable->addItem("item 4");
+    cmbEditable->setCurrentIndex(1);
+    cmbEditable->setEditable(true);
+    connect(cmbEditable, &JKQTEEnhancedComboBox::editingFinished,
+            [labcmbEditable, cmbEditable]() {
+                labcmbEditable->setText(tr("editingFinished: text=%1").arg(cmbEditable->currentText()));
+            });
+
+    //! [Example: JKQTEEnhancedComboBox]
+
+    JKQTEEnhancedComboBox* cmbNonEditable=new JKQTEEnhancedComboBox(wid);
+    cmbNonEditable->addItem("item 1");
+    cmbNonEditable->addItem("item 2");
+    cmbNonEditable->addItem("item 3");
+    cmbNonEditable->addItem("item 4");
+    cmbNonEditable->setCurrentIndex(1);
+    cmbNonEditable->setEditable(false);
+    connect(cmbNonEditable, &JKQTEEnhancedComboBox::editingFinished,
+            [labcmbNonEditable, cmbNonEditable]() {
+                labcmbNonEditable->setText(tr("editingFinished: text=%1").arg(cmbNonEditable->currentText()));
+            });
+
+    lay->addRow("JKQTEEnhancedComboBox, setEditable(true):", cmbEditable);
+    lay->addRow("", labcmbEditable);
+    lay->addRow("JKQTEEnhancedComboBox, setEditable(false):", cmbNonEditable);
+    lay->addRow("", labcmbNonEditable);
+    lay->addRow("JKQTEEnhancedComboBox, setEditable(false), setReadonly(true):", cmbReadOnly);
+    lay->addRow("", labcmbReadOnly);
+    lay->addRow("JKQTEEnhancedComboBox, setEditable(true), setReadonly(true):", cmbReadOnlyEditable);
+    lay->addRow("", labcmbReadOnlyEditable);
 
     return wid;
 }
