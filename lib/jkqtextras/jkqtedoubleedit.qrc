@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/jkqtedoubleedit">
+        <file alias="btn_down.png">images/btn_down.png</file>
+        <file alias="btn_up.png">images/btn_up.png</file>
+    </qresource>
+</RCC>

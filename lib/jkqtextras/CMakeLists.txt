@@ -29,6 +29,7 @@ set(SOURCES
     jkqtestarratingwidget.cpp
     jkqteverticalscrollarea.cpp
     jkqteenhancedcombobox.cpp
+    jkqtedoubleedit.cpp
 )
 
 
@@ -43,12 +44,14 @@ set(HEADERS
     jkqtestarratingwidget.h
     jkqteverticalscrollarea.h
     jkqteenhancedcombobox.h
+    jkqtedoubleedit.h
 )
 
 
 set(RESOURCES
     jkqteprogresslistwidget.qrc
     jkqtestarratingwidget.qrc
+    jkqtedoubleedit.qrc
 )
 
 include(CMakePackageConfigHelpers)

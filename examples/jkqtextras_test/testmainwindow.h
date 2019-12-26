@@ -21,6 +21,7 @@ protected:
     QWidget *testJKQTEModernProgressWidget();
     QWidget *testJKQTEColorSlider();
     QWidget *testDiverse();
+    QWidget *testJKQTEDoubleEdit();
 private:
     Ui::TestMainWindow *ui;
     QTimer* timJKQTEProgressListWidget;

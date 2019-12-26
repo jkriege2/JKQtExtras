@@ -7,11 +7,13 @@
 #include "jkqtextras/jkqtecolorsampler.h"
 #include "jkqtextras/jkqtestarratingwidget.h"
 #include "jkqtextras/jkqteenhancedcombobox.h"
+#include "jkqtextras/jkqtedoubleedit.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QSlider>
 #include <QSpinBox>
 #include <QGroupBox>
+#include <QCheckBox>
 
 TestMainWindow::TestMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,6 +27,7 @@ TestMainWindow::TestMainWindow(QWidget *parent) :
     ui->tabWidget->addTab(testJKQTEModernProgressWidget(), "JKQTEModernProgressWidget");
     ui->tabWidget->addTab(testJKQTEColorSlider(), "JKQTEColorSlider");
     ui->tabWidget->addTab(testDiverse(), "Diverse Widgets");
+    ui->tabWidget->addTab(testJKQTEDoubleEdit(), "JKQTEDoubleEdit");
     ui->tabWidget->setCurrentIndex(2);
 }
 
@@ -180,6 +183,57 @@ QWidget *TestMainWindow::testDiverse()
     lay->addRow("", labcmbReadOnly);
     lay->addRow("JKQTEEnhancedComboBox, setEditable(true), setReadonly(true):", cmbReadOnlyEditable);
     lay->addRow("", labcmbReadOnlyEditable);
+
+    return wid;
+}
+
+QWidget *TestMainWindow::testJKQTEDoubleEdit()
+{
+    QWidget* wid=new QWidget(this);
+    QGridLayout* lay=new QGridLayout;
+    wid->setLayout(lay);
+
+    int row=0, col=0;
+
+
+    //! [Example: JKQTEDoubleEdit]
+
+    JKQTEDoubleEdit* dblEdit=new JKQTEDoubleEdit(wid);
+    // set number range
+    dblEdit->setRange(-10,10);
+    // set to check upper and lower range bounds
+    dblEdit->setCheckBounds(true, true);
+    // set number of decimals
+    dblEdit->setDecimals(2);
+    // set a value
+    dblEdit->setValue(3.1415);
+    // set background color for OK-values and error values
+    dblEdit->setBackgroundColor(QColor("lime"));
+    dblEdit->setErrorBackgroundColor(QColor("salmon"));
+    // set up/down buttons visible
+    dblEdit->setShowUpDown(true);
+
+    //! [Example: JKQTEDoubleEdit]
+    lay->addWidget(new QLabel("JKQTEDoubleEdit [-10,10]:"), row, col); col++;
+    lay->addWidget(dblEdit, row, col); col++;
+
+    QCheckBox* chkUpDown=new QCheckBox(tr("up/down visible"), wid);
+    chkUpDown->setChecked(dblEdit->showUpDown());
+    connect(chkUpDown, &QCheckBox::toggled, dblEdit, &JKQTEDoubleEdit::setShowUpDown);
+    lay->addWidget(chkUpDown, row, col); col++;
+    QCheckBox* chkMin=new QCheckBox(tr("check minimum"), wid);
+    chkMin->setChecked(true);
+    connect(chkMin, &QCheckBox::toggled, dblEdit, &JKQTEDoubleEdit::setCheckMinimum);
+    lay->addWidget(chkMin, row, col); col++;
+    QCheckBox* chkMax=new QCheckBox(tr("check maximum"), wid);
+    chkMax->setChecked(true);
+    connect(chkMax, &QCheckBox::toggled, dblEdit, &JKQTEDoubleEdit::setCheckMaximum);
+    lay->addWidget(chkMax, row, col); col++;
+    QCheckBox* chkInt=new QCheckBox(tr("integers only"), wid);
+    chkInt->setChecked(false);
+    connect(chkInt, &QCheckBox::toggled, dblEdit, &JKQTEDoubleEdit::setIntegerWidget);
+    lay->addWidget(chkInt, row, col); col++;
+
 
     return wid;
 }
