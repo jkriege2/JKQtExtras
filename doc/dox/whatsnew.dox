@@ -19,6 +19,7 @@ Changes since creation include:
   - JKQTEColorSlider
   - JKQTEColorSampler
   - JKQTEStarRatingWidget
+  - JKQTEVerticalScrollArea
 .
 
 \subsection page_whatsnew_TRUNK_DOWNLOAD trunk: Download

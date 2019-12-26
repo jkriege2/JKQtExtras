@@ -6,6 +6,9 @@
 <tr><td> \image html JKQTEVisibleHandleSplitter_logo.png
     <td> JKQTEVisibleHandleSplitter
 	<td> \copybrief JKQTEVisibleHandleSplitter
+<tr><td> 
+    <td> JKQTEVerticalScrollArea
+	<td> \copybrief JKQTEVerticalScrollArea
 	
 <tr><th colspan="3">\ref JKQtExtrasWidgetsProgress
 <tr><td> \image html JKQTEProgressListWidget_logo.png

@@ -27,6 +27,7 @@ set(SOURCES
     jkqtecolorslider.cpp
     jkqtecolorsampler.cpp
     jkqtestarratingwidget.cpp
+    jkqteverticalscrollarea.cpp
 )
 
 
@@ -39,6 +40,7 @@ set(HEADERS
     jkqtecolorslider.h
     jkqtecolorsampler.h
     jkqtestarratingwidget.h
+    jkqteverticalscrollarea.h
 )
 
 
