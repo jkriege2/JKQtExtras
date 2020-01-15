@@ -75,6 +75,11 @@ void JKQTEProgressListWidget::setIconSize(QSize size) {
     updateWidgets();
 }
 
+void JKQTEProgressListWidget::setIconSize(int size)
+{
+    setIconSize(QSize(size,size));
+}
+
 bool JKQTEProgressListWidget::isCentered() const {
     return m_centered;
 }
@@ -182,7 +187,8 @@ JKQTEProgressListDialog::JKQTEProgressListDialog(const QString &labelText, const
 
 void JKQTEProgressListDialog::cancel() {
     m_wasCanceled=true;
-    reject();
+    emit canceled();
+    if (m_cancelRejects) reject();
 }
 
 void JKQTEProgressListDialog::showEvent(QShowEvent *event) {
@@ -198,7 +204,7 @@ void JKQTEProgressListDialog::createWidgets() {
     layout->addWidget(list, 0,0,1,2);
     progressLine=new QFrame(this);
     progressLine->setVisible(false);
-    progressLine->setFrameStyle(QFrame::HLine);
+    //progressLine->setFrameStyle(QFrame::HLine);
     layout->addWidget(progressLine, 1,0,1,2);
     progress=new QProgressBar(this);
     progress->setVisible(false);
@@ -297,12 +303,25 @@ void JKQTEProgressListDialog::setLabelText(const QString &text)
     setProgressText(text);
 }
 
+void JKQTEProgressListDialog::setCancelButtonText(const QString &text)
+{
+    btnCancel->setText(text);
+    repaint();
+    QApplication::processEvents();
+    QApplication::processEvents();
+}
+
 void JKQTEProgressListDialog::addItem(const QString &text, int status)
 {
     list->addItem(text, status);
     repaint();
     QApplication::processEvents();
     QApplication::processEvents();
+}
+
+int JKQTEProgressListDialog::count() const
+{
+    return list->count();
 }
 
 void JKQTEProgressListDialog::setHasCancelButton(bool hasCancel, bool cancelRejects)

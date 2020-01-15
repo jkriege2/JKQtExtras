@@ -51,7 +51,7 @@
 class JKQTEXTRAS_LIB_EXPORT JKQTEProgressListWidget : public QWidget {
         Q_OBJECT
     public:
-        enum {
+        enum {            
             statusNone=0,
             statusNotStarted=1,
             statusDone=2,
@@ -62,30 +62,47 @@ class JKQTEXTRAS_LIB_EXPORT JKQTEProgressListWidget : public QWidget {
 
         explicit JKQTEProgressListWidget(QWidget *parent = nullptr);
 
+        /** \brief define an icon to be used for a given status.
+         *
+         *  \note The widget pre-defines default icons for the states JKQTEProgressListWidget::statusNone, JKQTEProgressListWidget::statusNotStarted, JKQTEProgressListWidget::statusDone, JKQTEProgressListWidget::statusFailed, JKQTEProgressListWidget::statusInProgress. */
         void defineIcon(int status, QIcon icon);
+        /** \brief returns the icon used for a given \a status */
         QIcon getIcon(int status) const;
 
+        /** \brief returns the status of a given \a item */
         int getStatus(int item) const;
+        /** \brief returns the text of a given \a item */
         QString getText(int item) const;
+        /** \brief deletes a given \a item */
         void deleteItem(int item);
+        /** \brief returns the number of items in the list */
         int count() const;
+        /** \brief add an item to the list */
         void addItem(const QString& text, int status=statusNotStarted);
+        /** \brief returns currently used icon size for status icons */
         QSize getIconSize() const;
-        void setIconSize(QSize size);
+        /** \brief inidctaes whether to center the display */
         bool isCentered() const;
-        void setCentered(bool centered);
-        void reset();
-
-    signals:
 
     public slots:
         /** \brief searches for the first item with status statusInProgress and switches it's status to \a newStatusLast The next item with status  statusNotStarted is switched to statusInProgress */
         void nextItem(int newStatusLast=statusDone);
         /** \brief searched for the first item with status statusNotStarted and sets it to statusInProgress */
         void start();
+        /** \brief reset the list, i.e. set all items to JKQTEProgressListWidget::statusNotStarted */
+        void reset();
 
+        /** \brief set the status of the \a item -th item (allowed values: JKQTEProgressListWidget::statusNone, JKQTEProgressListWidget::statusNotStarted, JKQTEProgressListWidget::statusDone, JKQTEProgressListWidget::statusFailed, JKQTEProgressListWidget::statusInProgress, JKQTEProgressListWidget::statusUser ...) */
         void setItemStatus(int item, int status);
+        /** \brief set the text of the \a item -th item */
         void setItemText(int item, const QString& text);
+
+        /** \brief inidctaes whether to center the display */
+        void setCentered(bool centered);
+        /** \brief sets the currently used icon size for status icons */
+        void setIconSize(QSize size);
+        /** \brief sets the currently used icon size for status icons */
+        void setIconSize(int size);
 
     protected:
         struct widgetstruct  {
@@ -109,6 +126,12 @@ class JKQTEXTRAS_LIB_EXPORT JKQTEProgressListWidget : public QWidget {
 /** \brief a dialog with a JKQTEProgressListWidget and a cancel button (optional)
  *  \ingroup JKQtExtrasWidgetsProgress
  *
+ * \image html JKQTEProgressListDialog.png
+ *
+ * Usage example:
+ *
+ *   \snippet jkqtextras_test/testmainwindow.cpp Example: JKQTEProgressListDialog
+ *
  * \see JKQTEProgressListWidget
  */
 class JKQTEXTRAS_LIB_EXPORT JKQTEProgressListDialog : public QDialog {
@@ -118,28 +141,49 @@ class JKQTEXTRAS_LIB_EXPORT JKQTEProgressListDialog : public QDialog {
         JKQTEProgressListDialog(const QString & labelText, const QString & cancelButtonText, int minimum, int maximum, QWidget * parent = 0, Qt::WindowFlags f = 0);
         JKQTEProgressListWidget* getProgressList() const;
 
+        /** \brief switch visibility of cancel button (\a hasCancel \c =true ) and whether pressing it causes the dialog to be rejected. */
         void setHasCancelButton(bool hasCancel, bool cancelRejects=false);
+        /** \brief switch additional progress indicator on or off */
         void setHasProgressBar(bool hasProg=true);
+        /** \brief indicates whether the dialog was canceled (via the cancel button or calling cancel() ) */
         bool wasCanceled() const;
+        /** \copydoc JKQTEProgressListWidget::defineIcon() */
         void defineIcon(int status, QIcon icon);
+        /** \copydoc JKQTEProgressListWidget::addItem() */
         void addItem(const QString& text, int status=JKQTEProgressListWidget::statusNotStarted);
-
+        /** \copydoc JKQTEProgressListWidget::count() */
+        int count() const;
     public slots:
+        /** \brief cancel the dialog  */
         void cancel();
         /** \brief searches for the first item with status statusInProgress and switches it's status to \a newStatusLast The next item with status  statusNotStarted is switched to statusInProgress */
         void nextItem(int newStatusLast=JKQTEProgressListWidget::statusDone);
-        /** \brief searched for the first item with status statusNotStarted and sets it to statusInProgress */
+        /** \copydoc JKQTEProgressListWidget::start() */
         void start();
+        /** \copydoc JKQTEProgressListWidget::reset() */
         void reset();
 
+        /** \copydoc JKQTEProgressListWidget::setItemStatus() */
         void setItemStatus(int item, int status);
+        /** \copydoc JKQTEProgressListWidget::setItemText() */
         void setItemText(int item, const QString& text);
+        /** \brief set the range of the progress indicator */
         void setRange(int min, int max);
+        /** \brief set the range minimum of the progress indicator */
         void setMinimum(int min);
+        /** \brief set the range maximum of the progress indicator */
         void setMaximum(int max);
+        /** \brief set the value of the progress indicator */
         void setValue(int value);
+        /** \brief set the text on the progress indicator*/
         void setProgressText(const QString& text);
+        /** \brief set the text on the label */
         void setLabelText(const QString& text);
+        /** \brief set the text on the cancel button */
+        void setCancelButtonText(const QString& text);
+    signals:
+        /** \brief emitted when the dialog is canceled */
+        void canceled();
     protected:
         JKQTEProgressListWidget* list;
         QPushButton* btnCancel;

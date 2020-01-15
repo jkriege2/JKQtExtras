@@ -26,6 +26,8 @@ private:
     Ui::TestMainWindow *ui;
     QTimer* timJKQTEProgressListWidget;
     int stateJKQTEProgressListWidget;
+    QTimer* timJKQTEProgressListDialog;
+    int stateJKQTEProgressListDialog;
 };
 
 #endif // TESTMAINWINDOW_H

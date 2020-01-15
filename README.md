@@ -35,8 +35,7 @@ A Documentation (auto-)generated with [doxygen](http://www.doxygen.nl/) from the
 Documentation is auto-generated after pushes by [Travis](https://travis-ci.org/jkriege2/JKQtExtras): [![Build Status](https://travis-ci.org/jkriege2/JKQtExtras.svg?branch=master)](https://travis-ci.org/jkriege2/JKQtExtras)
 
 ## [Examples](./examples/)
-There is a [large set of usage examples (with explanations for each) and tutorials](./examples/) in the folder [`./examples/`](./examples).
-All test-projects are Qt-projects that use qmake to build. You can load them into QtCreator easily.
+[Examples and tutorials](./examples/) are available in the folder [`./examples/`](./examples).
 
 
 ## Building

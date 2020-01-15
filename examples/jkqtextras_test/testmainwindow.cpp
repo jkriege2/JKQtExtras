@@ -58,6 +58,11 @@ QWidget *TestMainWindow::testJKQTEProgressListWidget()
     QWidget* wid=new QWidget(this);
     QVBoxLayout* lay=new QVBoxLayout;
     wid->setLayout(lay);
+
+    QCheckBox* chkCentered=new QCheckBox(tr("centered"), wid);
+    lay->addWidget(chkCentered);
+    QSpinBox* spinIconSize=new QSpinBox(wid);
+    lay->addWidget(spinIconSize);
     //! [Example: JKQTEProgressListWidget]
     JKQTEProgressListWidget* progress=new JKQTEProgressListWidget(wid);
     progress->addItem("item 1", JKQTEProgressListWidget::statusNotStarted);
@@ -87,8 +92,65 @@ QWidget *TestMainWindow::testJKQTEProgressListWidget()
 
     //! [Example: JKQTEProgressListWidget]
 
+    connect(chkCentered, SIGNAL(toggled(bool)), progress, SLOT(setCentered(bool)));
+    spinIconSize->setRange(1,100);
+    spinIconSize->setValue(progress->getIconSize().width());
+    connect(spinIconSize, SIGNAL(valueChanged(int)), progress, SLOT(setIconSize(int)));
+
     lay->addWidget(progress);
     lay->addStretch(1);
+    QPushButton* btn=new QPushButton(tr("show JKQTEProgressListDialog"), wid);
+    lay->addWidget(btn);
+
+    connect(btn, &QPushButton::clicked, [&]() {
+        //! [Example: JKQTEProgressListDialog]
+
+        //                             label                 cancel button label   min  max
+        JKQTEProgressListDialog dialog;
+        dialog.setWindowTitle(tr("Window Title of JKQTEProgressListDialog"));
+
+        // add progress list items
+        dialog.addItem("item 1", JKQTEProgressListWidget::statusNotStarted);
+        dialog.addItem("item 2", JKQTEProgressListWidget::statusNotStarted);
+        dialog.addItem("item 3", JKQTEProgressListWidget::statusNotStarted);
+        dialog.addItem("item 4", JKQTEProgressListWidget::statusNotStarted);
+        dialog.addItem("item 5", JKQTEProgressListWidget::statusNotStarted);
+
+        // the dialog also has a progress indicator:
+        dialog.setHasProgressBar(true);
+        dialog.setRange(0,10);
+        dialog.setValue(0);
+        dialog.setProgressText(tr("Progress Label"));
+
+        // the widget should have a cancel button:
+        dialog.setHasCancelButton(true);
+        dialog.setCancelButtonText(tr("Cancel Process"));
+
+        // some automatism for changing the state
+        timJKQTEProgressListDialog=new QTimer(progress);
+        stateJKQTEProgressListDialog=0;
+        timJKQTEProgressListDialog->setInterval(500);
+        connect(timJKQTEProgressListDialog, &QTimer::timeout, std::bind([&dialog](int& state){
+                    if (state==1) {
+                        for (int i=0; i<dialog.count(); i++) {
+                            dialog.setItemStatus(i, JKQTEProgressListWidget::statusNotStarted);
+                        }
+                        dialog.start();
+                    } else if (state>10) {
+                        state=0;
+                    } else {
+                        dialog.nextItem();
+                    }
+                    dialog.setValue(state);
+                    state++;
+                }, std::ref(stateJKQTEProgressListDialog)));
+        timJKQTEProgressListDialog->start();
+
+        // show the dialog
+        dialog.exec();
+
+        //! [Example: JKQTEProgressListDialog]
+    });
 
     return wid;
 }
