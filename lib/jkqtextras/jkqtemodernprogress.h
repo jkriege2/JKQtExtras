@@ -255,11 +255,20 @@ private:
 /*! \brief dialog, using JKQTEModernProgressWidget
     \ingroup JKQtExtrasWidgetsProgress
 
-    use open() and hide() to show/hide the dialog and openDelayed() if you wsnt
+   Use open() and hide() to show/hide the dialog and openDelayed() if you wsnt
    the dialog to appear a given time after you called the function.
 
-    The dialog is displayed at the screen center if setCentered() is set \c
-   true.
+   The dialog is displayed at the screen center if setCentered() is set \c true.
+
+
+    \image html JKQTEModernProgressDialog.png
+
+    Usage example:
+
+    \snippet jkqtextras_test/testmainwindow.cpp Example: JKQTEModernProgressDialog
+
+
+
 */
 class JKQTEXTRAS_LIB_EXPORT JKQTEModernProgressDialog : public QDialog {
   Q_OBJECT
@@ -277,16 +286,10 @@ public:
   /** \brief text on the "Cancel" button of the dialog */
   QString cancelButtonText() const;
 
-  /** \brief text in the label of the dialog */
-  void setLabelText(const QString &t);
   /** \brief add a line of text to the dialog */
   void addLongTextLine(const QString &t);
 
-  /** \brief text on the "Cancel" button of the dialog */
-  void setCancelButtonText(const QString &t);
-  /** \brief indicate whetehr the dialog has a Cancel button (default: \c true
-   * )*/
-  void setHasCancel(bool has = true);
+
 
   /*! \brief display the progress dialog after a delay of \a minimumDuration
      milliseconds
@@ -321,7 +324,9 @@ public:
   QPushButton *cancelButton();
   /** \brief returns the long text lines widget */
   QTextEdit *longTextWidth(); /** \brief en-/disable spin and progress mode */
+  /** \brief set mode of the widget and en/-diable the spin */
   void setMode(bool enabledSpin, JKQTEModernProgressWidget::TextDisplayMode mode);
+
 public slots:
   /** \brief set the value in progress mode (activate calling setRange() or
    * setProgress() ) */
@@ -332,6 +337,13 @@ public slots:
   void setMinimum(double min);
   /** \brief set the progress range */
   void setMaximum(double max);
+  /** \brief text in the label of the dialog */
+  void setLabelText(const QString &t);
+  /** \brief text on the "Cancel" button of the dialog */
+  void setCancelButtonText(const QString &t);
+  /** \brief indicate whetehr the dialog has a Cancel button (default: \c true )*/
+  void setHasCancel(bool has = true);
+
 signals:
   /** \brief emitted when the "Cancel" button is clicked */
   void canceled();

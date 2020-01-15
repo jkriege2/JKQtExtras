@@ -533,5 +533,38 @@ QWidget *TestMainWindow::testJKQTEModernProgressWidget()
 
 
     slider->setValue(50);
+
+    QPushButton* btn=new QPushButton(tr("show JKQTEModernProgressDialog"), main);
+    lay->addWidget(btn, row,0,1,5);
+
+    connect(btn, &QPushButton::clicked, [&]() {
+        //! [Example: JKQTEModernProgressDialog]
+        JKQTEModernProgressDialog dialog;
+        dialog.setWindowTitle(tr("Example of JKQTEModernProgressDialog"));
+        // choose a mode
+        dialog.progressWidget()->setMode(JKQTEModernProgressWidget::Mode::Strokes);
+        // set the range (these may be any doubles)
+        dialog.setRange(0,100);
+        // set the display mode of the text in the center of the widget (here: OFF)
+        dialog.progressWidget()->setTextDisplayMode(JKQTEModernProgressWidget::PercentText);
+        // set progress
+        dialog.setValue(50);
+        // enable spinning of the progress indicator
+        dialog.progressWidget()->setSpin(true);
+        // enable cancel button
+        dialog.setHasCancel(true);
+        // ... and connect it to the slot that closes the dialog
+        connect(&dialog, &JKQTEModernProgressDialog::canceled, &dialog, &JKQTEModernProgressDialog::close);
+        // set text on the dialog#s main label
+        dialog.setLabelText(tr("label text"));
+        // add additional text lines
+        dialog.addLongTextLine(tr("long text line 1"));
+        dialog.addLongTextLine(tr("long text line 2"));
+
+        // display the dialog
+        dialog.exec();
+        //! [Example: JKQTEModernProgressDialog]
+    });
+
     return main;
 }
