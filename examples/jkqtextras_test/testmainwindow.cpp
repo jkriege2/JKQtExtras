@@ -9,6 +9,7 @@
 #include "jkqtextras/jkqteenhancedcombobox.h"
 #include "jkqtextras/jkqtedoubleedit.h"
 #include "jkqtextras/jkqterecentfilesmenu.h"
+#include "jkqtextras/jkqtespecialtoolbutton.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QSlider>
@@ -27,7 +28,7 @@ TestMainWindow::TestMainWindow(QWidget *parent) :
     ui->tabWidget->addTab(testJKQTEProgressListWidget(), "JKQTEProgressListWidget");
     ui->tabWidget->addTab(testJKQTEModernProgressWidget(), "JKQTEModernProgressWidget");
     ui->tabWidget->addTab(testJKQTEColorSlider(), "JKQTEColorSlider");
-    ui->tabWidget->addTab(testDiverse(), "Diverse Widgets");
+    ui->tabWidget->addTab(testMiscellanious(), "Diverse Widgets");
     ui->tabWidget->addTab(testJKQTEDoubleEdit(), "JKQTEDoubleEdit");
     ui->tabWidget->setCurrentIndex(2);
 
@@ -170,7 +171,7 @@ QWidget *TestMainWindow::testJKQTEProgressListWidget()
     return wid;
 }
 
-QWidget *TestMainWindow::testDiverse()
+QWidget *TestMainWindow::testMiscellanious()
 {
     QWidget* wid=new QWidget(this);
     QFormLayout* lay=new QFormLayout;
@@ -260,6 +261,48 @@ QWidget *TestMainWindow::testDiverse()
     lay->addRow("", labcmbReadOnly);
     lay->addRow("JKQTEEnhancedComboBox, setEditable(true), setReadonly(true):", cmbReadOnlyEditable);
     lay->addRow("", labcmbReadOnlyEditable);
+
+
+
+    //! [Example: JKQTEURLOpenToolButton]
+    QLineEdit* lineUrl=new QLineEdit("https://github.com/jkriege2/JKQtExtras", wid);
+    JKQTEURLOpenToolButton* btnUrl=new JKQTEURLOpenToolButton(wid);
+    btnUrl->setBuddy(lineUrl);
+    //! [Example: JKQTEURLOpenToolButton]
+    QHBoxLayout* layUrl=new QHBoxLayout;
+    lay->addRow("JKQTEURLOpenToolButton", layUrl);
+    layUrl->addWidget(lineUrl);
+    layUrl->addWidget(btnUrl);
+
+    //! [Example: JKQTEDirectorySelectToolButton]
+    QLineEdit* lineDir=new QLineEdit(wid);
+    JKQTEDirectorySelectToolButton* btnDir=new JKQTEDirectorySelectToolButton(wid);
+    btnDir->setBuddy(lineDir);
+    //! [Example: JKQTEDirectorySelectToolButton]
+    QHBoxLayout* layDir=new QHBoxLayout;
+    lay->addRow("JKQTEDirectorySelectToolButton", layDir);
+    layDir->addWidget(lineDir);
+    layDir->addWidget(btnDir);
+
+    //! [Example: JKQTEFileSelectToolButton]
+    QLineEdit* lineFile=new QLineEdit(wid);
+    JKQTEFileSelectToolButton* btnFile=new JKQTEFileSelectToolButton(wid);
+    btnFile->setBuddy(lineFile);
+    //! [Example: JKQTEFileSelectToolButton]
+    QHBoxLayout* layFile=new QHBoxLayout;
+    lay->addRow("JKQTEFileSelectToolButton", layFile);
+    layFile->addWidget(lineFile);
+    layFile->addWidget(btnFile);
+
+    //! [Example: JKQTEFileExecuteToolButton]
+    QLineEdit* lineFileExe=new QLineEdit(QApplication::instance()->applicationFilePath(), wid);
+    JKQTEFileExecuteToolButton* btnFileExe=new JKQTEFileExecuteToolButton(wid);
+    btnFileExe->setBuddy(lineFileExe);
+    //! [Example: JKQTEFileExecuteToolButton]
+    QHBoxLayout* layFileExe=new QHBoxLayout;
+    lay->addRow("JKQTEFileExecuteToolButton", layFileExe);
+    layFileExe->addWidget(lineFileExe);
+    layFileExe->addWidget(btnFileExe);
 
     return wid;
 }

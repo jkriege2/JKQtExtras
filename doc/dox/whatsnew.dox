@@ -23,6 +23,10 @@ Changes since creation include:
   - JKQTEEnhancedComboBox
   - JKQTEDoubleEdit
   - JKQTERecentFilesMenu
+  - JKQTEURLOpenToolButton
+  - JKQTEDirectorySelectToolButton
+  - JKQTEFileSelectToolButton
+  - JKQTEFileExecuteToolButton
 .
 
 \subsection page_whatsnew_TRUNK_DOWNLOAD trunk: Download

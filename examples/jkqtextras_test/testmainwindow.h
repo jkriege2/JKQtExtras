@@ -20,7 +20,7 @@ protected:
     QWidget *testJKQTEProgressListWidget();
     QWidget *testJKQTEModernProgressWidget();
     QWidget *testJKQTEColorSlider();
-    QWidget *testDiverse();
+    QWidget *testMiscellanious();
     QWidget *testJKQTEDoubleEdit();
 private:
     Ui::TestMainWindow *ui;

@@ -49,6 +49,21 @@
     <td> JKQTEDoubleEdit
 	<td> \copybrief JKQTEDoubleEdit
 	
+<tr><th colspan="3">\ref JKQtExtrasWidgetsButtons
+<tr><td> \image html JKQTEURLOpenToolButton_logo.png
+    <td> JKQTEURLOpenToolButton
+	<td> \copybrief JKQTEURLOpenToolButton
+<tr><td> \image html JKQTEDirectorySelectToolButton_logo.png
+    <td> JKQTEDirectorySelectToolButton
+	<td> \copybrief JKQTEDirectorySelectToolButton
+<tr><td> \image html JKQTEFileSelectToolButton_logo.png
+    <td> JKQTEFileSelectToolButton
+	<td> \copybrief JKQTEFileSelectToolButton
+<tr><td> \image html JKQTEFileExecuteToolButton_logo.png
+    <td> JKQTEFileExecuteToolButton
+	<td> \copybrief JKQTEFileExecuteToolButton
+
+	
 <tr><th colspan="3">\ref JKQtExtrasWidgetsMenus
 <tr><td> \image html JKQTERecentFilesMenu_logo.png
     <td> JKQTERecentFilesMenu

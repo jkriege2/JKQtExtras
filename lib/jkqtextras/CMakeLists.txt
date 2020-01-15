@@ -31,6 +31,7 @@ set(SOURCES
     jkqteenhancedcombobox.cpp
     jkqtedoubleedit.cpp
     jkqterecentfilesmenu.cpp
+    jkqtespecialtoolbutton.cpp
 )
 
 
@@ -47,6 +48,7 @@ set(HEADERS
     jkqteenhancedcombobox.h
     jkqtedoubleedit.h
     jkqterecentfilesmenu.h
+    jkqtespecialtoolbutton.h
 )
 
 
@@ -54,6 +56,7 @@ set(RESOURCES
     jkqteprogresslistwidget.qrc
     jkqtestarratingwidget.qrc
     jkqtedoubleedit.qrc
+    jkqtespecialtoolbutton.qrc
 )
 
 include(CMakePackageConfigHelpers)

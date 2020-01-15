@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/jkqtespecialtoolbutton">
+    <file alias="executetoolbutton.png">images/executetoolbutton.png</file>
+    <file alias="fileselecttoolbutton.png">images/fileselecttoolbutton.png</file>
+    <file alias="dirselecttoolbutton.png">images/dirselecttoolbutton.png</file>
+    <file alias="urltoolbutton.png">images/urltoolbutton.png</file>
+</qresource>
+</RCC>

@@ -24,6 +24,9 @@
 \defgroup JKQtExtrasWidgetsSliders Sliders ...
 \ingroup JKQtExtrasWidgets
 
+\defgroup JKQtExtrasWidgetsButtons Buttons ...
+\ingroup JKQtExtrasWidgets
+
 \defgroup JKQtExtrasToolsClasses JKQtExtras: Tool Classes
 \ingroup JKQtExtras
 
