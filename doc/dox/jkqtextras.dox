@@ -9,6 +9,9 @@
 \defgroup JKQtExtrasWidgetsLayout Form Organization/Layout
 \ingroup JKQtExtrasWidgets
 
+\defgroup JKQtExtrasWidgetsMenus Menus, ...
+\ingroup JKQtExtrasWidgets
+
 \defgroup JKQtExtrasWidgetsProgress Progress Indicators
 \ingroup JKQtExtrasWidgets
 

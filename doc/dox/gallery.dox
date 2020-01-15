@@ -49,6 +49,11 @@
     <td> JKQTEDoubleEdit
 	<td> \copybrief JKQTEDoubleEdit
 	
+<tr><th colspan="3">\ref JKQtExtrasWidgetsMenus
+<tr><td> \image html JKQTERecentFilesMenu_logo.png
+    <td> JKQTERecentFilesMenu
+	<td> \copybrief JKQTERecentFilesMenu
+	
 </table>
 
 */

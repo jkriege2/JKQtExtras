@@ -8,6 +8,7 @@
 #include "jkqtextras/jkqtestarratingwidget.h"
 #include "jkqtextras/jkqteenhancedcombobox.h"
 #include "jkqtextras/jkqtedoubleedit.h"
+#include "jkqtextras/jkqterecentfilesmenu.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QSlider>
@@ -29,6 +30,20 @@ TestMainWindow::TestMainWindow(QWidget *parent) :
     ui->tabWidget->addTab(testDiverse(), "Diverse Widgets");
     ui->tabWidget->addTab(testJKQTEDoubleEdit(), "JKQTEDoubleEdit");
     ui->tabWidget->setCurrentIndex(2);
+
+    //! [Example: JKQTERecentFilesMenu]
+
+    JKQTERecentFilesMenu* menuRecent=new JKQTERecentFilesMenu;
+    // add recent files menu to existing menu bar
+    ui->menubar->addMenu(menuRecent);
+
+    // set max. number of entires
+    menuRecent->setMaxRecentFilesCount(10);
+    // add some file
+    menuRecent->addRecentFile(QApplication::instance()->applicationFilePath());
+
+    //! [Example: JKQTERecentFilesMenu]
+
 }
 
 TestMainWindow::~TestMainWindow()

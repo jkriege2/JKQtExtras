@@ -30,6 +30,7 @@ set(SOURCES
     jkqteverticalscrollarea.cpp
     jkqteenhancedcombobox.cpp
     jkqtedoubleedit.cpp
+    jkqterecentfilesmenu.cpp
 )
 
 
@@ -45,6 +46,7 @@ set(HEADERS
     jkqteverticalscrollarea.h
     jkqteenhancedcombobox.h
     jkqtedoubleedit.h
+    jkqterecentfilesmenu.h
 )
 
 
