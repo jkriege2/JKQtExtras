@@ -68,6 +68,12 @@
 <tr><td> \image html JKQTERecentFilesMenu_logo.png
     <td> JKQTERecentFilesMenu
 	<td> \copybrief JKQTERecentFilesMenu
+
+	
+<tr><th colspan="3">\ref JKQtExtrasToolsClassesModels
+<tr><td> \image html JKQTECheckableStringListModel_logo.png
+    <td> JKQTECheckableStringListModel
+	<td> \copybrief JKQTECheckableStringListModel
 	
 </table>
 

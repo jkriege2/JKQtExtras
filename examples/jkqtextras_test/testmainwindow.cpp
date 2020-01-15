@@ -10,12 +10,14 @@
 #include "jkqtextras/jkqtedoubleedit.h"
 #include "jkqtextras/jkqterecentfilesmenu.h"
 #include "jkqtextras/jkqtespecialtoolbutton.h"
+#include "jkqtextras/jkqtecheckablestringlistmodel.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QSlider>
 #include <QSpinBox>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QListView>
 
 TestMainWindow::TestMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,7 +32,8 @@ TestMainWindow::TestMainWindow(QWidget *parent) :
     ui->tabWidget->addTab(testJKQTEColorSlider(), "JKQTEColorSlider");
     ui->tabWidget->addTab(testMiscellanious(), "Diverse Widgets");
     ui->tabWidget->addTab(testJKQTEDoubleEdit(), "JKQTEDoubleEdit");
-    ui->tabWidget->setCurrentIndex(2);
+    ui->tabWidget->addTab(testJKQTECheckableStringListModel(), "JKQTECheckableStringListModel");
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
 
     //! [Example: JKQTERecentFilesMenu]
 
@@ -354,6 +357,46 @@ QWidget *TestMainWindow::testJKQTEDoubleEdit()
     connect(chkInt, &QCheckBox::toggled, dblEdit, &JKQTEDoubleEdit::setIntegerWidget);
     lay->addWidget(chkInt, row, col); col++;
 
+
+    return wid;
+}
+
+QWidget *TestMainWindow::testJKQTECheckableStringListModel()
+{
+
+
+    //! [Example: JKQTECheckableStringListModel]
+    JKQTECheckableStringListModel* model=new JKQTECheckableStringListModel();
+
+    // add lines
+    QStringList lst;
+    lst<<tr("item 1");
+    lst<<tr("item 2");
+    lst<<tr("item 3");
+    lst<<tr("item 4");
+    lst<<tr("item 5");
+    lst<<tr("item 6");
+    lst<<tr("item 7");
+    lst<<tr("item 8");
+    lst<<tr("item 9");
+    lst<<tr("item 10");
+    model->setStringList(lst);
+
+    // set checkable
+    model->setCheckable(true);
+
+    // set check state
+    model->setChecked(0);
+    model->setChecked(1);
+    model->setChecked(2);
+    model->setChecked(5);
+    model->setChecked(8);
+    model->setChecked(9);
+
+    // assign model to view
+    QListView* wid=new QListView(this);
+    wid->setModel(model);
+    //! [Example: JKQTECheckableStringListModel]
 
     return wid;
 }

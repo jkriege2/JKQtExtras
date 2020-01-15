@@ -27,6 +27,7 @@ Changes since creation include:
   - JKQTEDirectorySelectToolButton
   - JKQTEFileSelectToolButton
   - JKQTEFileExecuteToolButton
+  - JKQTECheckableStringListModel
 .
 
 \subsection page_whatsnew_TRUNK_DOWNLOAD trunk: Download

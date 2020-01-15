@@ -32,6 +32,7 @@ set(SOURCES
     jkqtedoubleedit.cpp
     jkqterecentfilesmenu.cpp
     jkqtespecialtoolbutton.cpp
+    jkqtecheckablestringlistmodel.cpp
 )
 
 
@@ -49,6 +50,7 @@ set(HEADERS
     jkqtedoubleedit.h
     jkqterecentfilesmenu.h
     jkqtespecialtoolbutton.h
+    jkqtecheckablestringlistmodel.h
 )
 
 

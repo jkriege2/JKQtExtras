@@ -22,6 +22,7 @@ protected:
     QWidget *testJKQTEColorSlider();
     QWidget *testMiscellanious();
     QWidget *testJKQTEDoubleEdit();
+    QWidget *testJKQTECheckableStringListModel();
 private:
     Ui::TestMainWindow *ui;
     QTimer* timJKQTEProgressListWidget;
