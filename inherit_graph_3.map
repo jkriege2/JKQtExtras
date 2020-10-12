@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,103,124,133"/>
+<area shape="rect" id="node2" href="$class_j_k_q_t_e_directory_select_tool_button.html" title="specialized QToolButton which allows to select a directory and saves its path in the buddy" alt="" coords="183,5,405,52"/>
+<area shape="rect" id="node3" href="$class_j_k_q_t_e_file_execute_tool_button.html" title="specialized QToolButton which allows to open the file referenced by the buddy edit" alt="" coords="172,77,416,106"/>
+<area shape="rect" id="node4" href="$class_j_k_q_t_e_file_select_tool_button.html" title="specialized QToolButton which allows to select a file and saves its path in the buddy" alt="" coords="179,130,409,159"/>
+<area shape="rect" id="node5" href="$class_j_k_q_t_e_u_r_l_open_tool_button.html" title="specialized QToolButton which takes the contents of its buddy as webpage adress (URL) and opens it in..." alt="" coords="180,183,408,213"/>
+</map>

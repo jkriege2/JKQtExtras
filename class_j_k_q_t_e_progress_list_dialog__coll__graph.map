@@ -1,0 +1,6 @@
+<map id="JKQTEProgressListDialog" name="JKQTEProgressListDialog">
+<area shape="rect" id="node1" title="a dialog with a JKQTEProgressListWidget and a cancel button (optional)" alt="" coords="5,179,220,208"/>
+<area shape="rect" id="node2" title=" " alt="" coords="15,84,101,113"/>
+<area shape="rect" id="node3" href="$class_j_k_q_t_e_progress_list_widget.html" title="displays a list of items with an icon next to each which indicates the current task performed on the ..." alt="" coords="125,84,343,113"/>
+<area shape="rect" id="node4" title=" " alt="" coords="189,5,279,35"/>
+</map>
